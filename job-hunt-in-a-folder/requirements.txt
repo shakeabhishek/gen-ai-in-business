@@ -1,0 +1,9 @@
+google-genai>=2.33
+pypdf
+python-docx
+httpx
+beautifulsoup4
+jinja2
+python-dotenv
+watchdog
+defusedxml

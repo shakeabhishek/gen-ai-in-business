@@ -1,0 +1,8 @@
+# Personal: the CV, and the page built from it (it quotes the CV)
+cv.pdf
+job-hunt.html
+# Secrets
+.env
+# Local state
+.cache/
+.venv/

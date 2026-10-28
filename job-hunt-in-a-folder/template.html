@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% if live %}<meta http-equiv="refresh" content="5">{% endif %}
+<title>Job Hunt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1B2A41;
+    --ink-soft: #4A5870;
+    --paper: #EEF1F4;
+    --sheet: #FFFFFF;
+    --rule: #CBD3DD;
+    --manila: #E3C27A;
+    --manila-deep: #C9A55A;
+    --pencil: #C23B22;
+    --ledger: #2F6F55;
+    --sans: "Archivo", system-ui, sans-serif;
+    --serif: "Source Serif 4", Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 400 17px/1.6 var(--serif);
+  }
+  a { color: inherit; text-underline-offset: 3px; }
+  a:focus-visible, summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+
+  /* Header + runway */
+  header { padding: 56px 0 24px; }
+  h1 {
+    font: 800 clamp(48px, 9vw, 112px)/0.9 var(--sans);
+    font-stretch: 62%;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .lede { font-size: 19px; margin: 16px 0 0; max-width: 60ch; color: var(--ink-soft); }
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  .runway { margin: 40px 0 8px; overflow-x: auto; padding-bottom: 8px; }
+  .track { position: relative; min-width: 640px; }
+  .lanes { position: relative; }
+  .mark {
+    position: absolute;
+    transform: translateX(-1px);
+    border-left: 2px solid var(--ink);
+    padding: 0 0 0 8px;
+    font: 600 14px/1.25 var(--sans);
+    font-stretch: 87%;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .mark small { display: block; font-weight: 400; color: var(--ink-soft); }
+  .mark.soon { border-color: var(--pencil); }
+  .mark.soon small { color: var(--pencil); font-weight: 600; }
+  .mark:hover span { text-decoration: underline; }
+  .axis { position: relative; height: 34px; border-top: 2px solid var(--ink); }
+  .tick { position: absolute; top: 0; height: 8px; border-left: 1px solid var(--ink); }
+  .tick span {
+    position: absolute; top: 10px; left: 0; transform: translateX(-50%);
+    font: 400 12px/1 var(--sans); color: var(--ink-soft); white-space: nowrap;
+  }
+  .tick:first-child span { transform: none; font-weight: 700; color: var(--ink); }
+  .undated { font: 400 14px/1.4 var(--sans); color: var(--ink-soft); margin: 4px 0 0; }
+
+  /* Folders */
+  main { padding: 24px 0 80px; }
+  .folder { margin: 40px 0 0; scroll-margin-top: 16px; }
+  .tab {
+    display: inline-flex; align-items: baseline; gap: 12px;
+    max-width: 100%;
+    background: var(--manila);
+    padding: 10px 20px 8px;
+    border-radius: 8px 8px 0 0;
+    font: 700 15px/1.2 var(--sans);
+    font-stretch: 100%;
+  }
+  .tab .src { min-width: 0; font-weight: 400; font-size: 13px; color: #5B4A22; max-width: 40ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sheet {
+    background: var(--sheet);
+    border-top: 6px solid var(--manila);
+    border-radius: 0 8px 8px 8px;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+  }
+  .side { padding: 28px 24px; border-right: 1px solid var(--rule); }
+  .body { padding: 28px 32px 32px; min-width: 0; }
+  h2 {
+    font: 700 clamp(26px, 3.4vw, 36px)/1.1 var(--sans);
+    font-stretch: 75%;
+    margin: 0 0 4px;
+  }
+  .where { font: 400 15px/1.4 var(--sans); color: var(--ink-soft); margin: 0 0 20px; }
+  h3 { font: 700 15px/1.3 var(--sans); margin: 24px 0 8px; }
+  ul, ol { margin: 0; padding-left: 20px; }
+  li { margin: 0 0 6px; max-width: 72ch; }
+
+  .due { font: 800 30px/1 var(--sans); font-stretch: 75%; }
+  .due.none { font-size: 22px; color: var(--ink-soft); }
+  .left { font: 600 14px/1.4 var(--sans); margin: 6px 0 0; }
+  .left.soon { color: var(--pencil); }
+  .proof { margin: 14px 0 0; font-size: 14px; line-height: 1.5; }
+  .proof q { font-style: italic; }
+  .check { display: block; font: 600 13px/1.3 var(--sans); margin: 8px 0 0; }
+  .check.ok { color: var(--ledger); }
+  .check.bad { color: var(--pencil); }
+
+  .fit { margin: 28px 0 0; }
+  .pips { display: flex; gap: 4px; margin: 8px 0 6px; }
+  .pip { width: 100%; height: 10px; background: var(--rule); border-radius: 1px; }
+  .pip.on { background: var(--ink); }
+  .fit.high .pip.on { background: var(--ledger); }
+  .fit-label { font: 700 15px/1.3 var(--sans); }
+  .note { margin: 20px 0 0; font-size: 14px; color: var(--ink-soft); }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
+  .facts li::marker { color: var(--manila-deep); }
+  .gaps li::marker { color: var(--pencil); }
+  .questions li { margin-bottom: 10px; }
+  .news li { margin-bottom: 10px; }
+  .cites { font: 400 13px/1.4 var(--sans); color: var(--ink-soft); }
+  .cites a { margin-right: 10px; }
+  .muted { color: var(--ink-soft); font-size: 15px; }
+
+  .skipped { margin: 56px 0 0; padding: 24px; border: 2px dashed var(--rule); border-radius: 8px; }
+  .skipped h2 { font-size: 24px; }
+  .skipped li { word-break: break-all; }
+  footer { font: 400 13px/1.5 var(--sans); color: var(--ink-soft); padding: 0 0 40px; }
+  .empty { font-size: 19px; margin: 40px 0; max-width: 60ch; }
+
+  @media (max-width: 760px) {
+    header { padding-top: 32px; }
+    .sheet { grid-template-columns: 1fr; }
+    .side { border-right: 0; border-bottom: 1px solid var(--rule); }
+    .body { padding: 24px 20px; }
+    .two { grid-template-columns: 1fr; }
+  }
+  @media print {
+    body { background: #fff; }
+    .runway { display: none; }
+    .folder { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Job hunt</h1>
+    {% set dated = runway.marks %}
+    {% if roles %}
+    <p class="lede">
+      <strong>{{ roles|length }} role{{ 's' if roles|length != 1 }}</strong>, sorted by deadline.
+      {% if dated %}The next one closes {{ dated[0].role.deadline_date|nice_date }}{% if dated[0].days <= 0 %}, today{% else %}, in {{ dated[0].days }} day{{ 's' if dated[0].days != 1 }}{% endif %}.{% else %}None of the postings state a deadline.{% endif %}
+    </p>
+    {% if dated %}
+    <div class="runway" aria-label="Deadlines on a timeline">
+      <div class="track">
+        <div class="lanes" style="height: {{ runway.lanes * 48 }}px">
+          {% for m in dated %}
+          <a class="mark{{ ' soon' if m.days <= 7 }}" href="#role-{{ loop.index }}"
+             style="left: {{ '%.2f'|format(m.pos) }}%; bottom: 0; height: {{ m.lane * 48 + 48 }}px">
+            <span>{{ m.role.analysis.company }}</span>
+            <small>{{ m.role.deadline_date.strftime('%b %-d') }}</small>
+          </a>
+          {% endfor %}
+        </div>
+        <div class="axis">
+          {% for t in runway.ticks %}<div class="tick" style="left: {{ '%.2f'|format(t.pos) }}%"><span>{{ 'Today' if loop.first else t.label }}</span></div>{% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% set undated = roles|rejectattr('deadline_date')|list %}
+    {% if undated and dated %}<p class="undated">No deadline stated: {{ undated|map(attribute='analysis.company')|join(', ') }}</p>{% endif %}
+    {% endif %}
+  </header>
+
+  <main>
+    {% if not roles %}
+    <p class="empty">No postings yet. Drop a posting into the <code>postings</code> folder or add a link to <code>postings.csv</code>, then run <code>python build.py</code>.</p>
+    {% endif %}
+
+    {% for r in roles %}
+    {% set a = r.analysis %}
+    <section class="folder" id="role-{{ loop.index }}">
+      <div class="tab">{{ a.company }}<span class="src" title="{{ r.posting.source }}">{{ r.posting.source }}</span></div>
+      <div class="sheet">
+        <aside class="side">
+          {% if r.deadline_date %}
+            {% set days = (r.deadline_date - today).days %}
+            <div class="due">{{ r.deadline_date.strftime('%b %-d') }}</div>
+            <p class="left{{ ' soon' if days <= 7 }}">
+              {% if days < 0 %}Closed {{ -days }} day{{ 's' if days != -1 }} ago{% elif days == 0 %}Closes today{% else %}{{ days }} day{{ 's' if days != 1 }} left{% endif %}
+            </p>
+            <p class="proof">The posting says: <q>{{ a.deadline_quote }}</q>
+              {% if r.deadline_check == 'verified' %}
+              <span class="check ok">Quote found in the posting</span>
+              {% else %}
+              <span class="check bad">Quote not found in the posting. Check the deadline yourself.</span>
+              {% endif %}
+            </p>
+          {% else %}
+            <div class="due none">No deadline stated</div>
+            <p class="proof">The posting doesn't give an application deadline. Many roles close once filled, so apply early.</p>
+          {% endif %}
+
+          <div class="fit{{ ' high' if a.fit_score >= 4 }}">
+            <div class="fit-label">Fit {{ a.fit_score }} of 5</div>
+            <div class="pips" role="img" aria-label="Fit score {{ a.fit_score }} of 5">
+              {% for i in range(5) %}<span class="pip{{ ' on' if i < a.fit_score }}"></span>{% endfor %}
+            </div>
+          </div>
+          {% if r.posting.note %}<p class="note">Your note: {{ r.posting.note }}</p>{% endif %}
+        </aside>
+
+        <div class="body">
+          <h2>{{ a.title }}</h2>
+          <p class="where">{{ a.location }}{% if r.posting.source.startswith('http') %}<br><a href="{{ r.posting.source }}" target="_blank" rel="noopener">Open the original posting</a>{% endif %}</p>
+
+          <ul class="facts">{% for f in a.key_facts %}<li>{{ f }}</li>{% endfor %}</ul>
+
+          <h3>How it fits your CV</h3>
+          <p>{{ a.fit_summary }}</p>
+          <div class="two">
+            <div>
+              <h3>Where you match</h3>
+              <ul>{% for s in a.strengths %}<li>{{ s }}</li>{% endfor %}</ul>
+            </div>
+            <div>
+              <h3>What's missing</h3>
+              <ul class="gaps">{% for g in a.gaps %}<li>{{ g }}</li>{% endfor %}</ul>
+            </div>
+          </div>
+
+          <h3>Likely interview questions</h3>
+          <ol class="questions">{% for q in a.interview_questions %}<li>{{ q }}</li>{% endfor %}</ol>
+
+          {% if r.news or r.news_error %}
+          <h3>Recent news on {{ a.company }}</h3>
+          {% if r.news %}
+          <ul class="news">
+            {% for n in r.news %}
+            <li>{{ n.text }}<br><span class="cites">Source: {% for s in n.sources %}<a href="{{ s.url }}" target="_blank" rel="noopener">{{ s.label }}</a>{% endfor %}</span></li>
+            {% endfor %}
+          </ul>
+          {% else %}<p class="muted">{{ r.news_error }}</p>{% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </section>
+    {% endfor %}
+
+    {% if skipped %}
+    <section class="skipped">
+      <h2>Couldn't read {{ skipped|length }} posting{{ 's' if skipped|length != 1 }}</h2>
+      <ul>{% for p in skipped %}<li><strong>{{ p.source }}</strong>: {{ p.error }}</li>{% endfor %}</ul>
+    </section>
+    {% endif %}
+  </main>
+
+  <footer>Built {{ built_at }} from cv.pdf{% if live %}. Watching the folder; this page refreshes itself.{% endif %}</footer>
+</div>
+</body>
+</html>
