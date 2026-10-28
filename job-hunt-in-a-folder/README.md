@@ -9,7 +9,7 @@
 ![Cost](https://img.shields.io/badge/cost-%240-E3C27A)
 ![Class](https://img.shields.io/badge/Columbia-Gen%20AI%20in%20Business-C23B22)
 
-<img src="docs/screenshot.png" alt="The generated page: a deadline timeline at the top, then one folder per role with the deadline, fit score, key facts and fit against the CV" width="860">
+<img src="docs/screenshot.png" alt="The generated page: a deadline timeline, sort and filter buttons, then one row per role with fit score, title, a one-line verdict, pay, location, skills and days left" width="860">
 
 <sub>Screenshot uses fictional companies and a fictional CV.</sub>
 
@@ -19,7 +19,7 @@
 
 ## ✨ What you get
 
-For every posting, a local web page shows:
+One row per role, built to scan in seconds. Each row shows the **fit score**, a **one-line verdict**, **pay**, **location**, the top **skills**, and **days until the deadline**. Click a row for the full picture:
 
 - 🗓️ **The deadline**, with the exact sentence from the posting it came from, and a check that the sentence is really there.
 - 🎯 **A 1-to-5 fit score** against your CV, with where you match and what's missing.
@@ -27,7 +27,7 @@ For every posting, a local web page shows:
 - 💬 **Three likely interview questions**, tied to the role and to your background.
 - 📰 **Recent company news**, each fact linked to its source article.
 
-Roles are sorted by deadline, and a timeline at the top shows what closes next.
+Sort by deadline or best fit, filter to fit 4+, or expand everything at once. A timeline at the top shows what closes next, and clicking a company on it opens that role.
 
 ## 🧭 How it works
 
@@ -77,6 +77,9 @@ Get a free key at [Google AI Studio](https://aistudio.google.com/apikey). Then:
 | 🟣 **Power User** | Recent news on each company, with a source for every fact | Google News RSS supplies real articles; Gemini only picks among them and cites by number |
 
 Everything runs on the **Gemini free tier**. Results are cached in `.cache/`, so a rebuild only calls the model for postings that are new or changed.
+
+> [!IMPORTANT]
+> Each free Gemini model allows only a small number of requests per day. When `gemini-3.8-flash` runs out (or is overloaded), the script moves down `GEMINI_FALLBACK_MODELS` in `.env` (3.6 Flash, then 3.5 Flash, then 3.1 Flash Lite) instead of stalling. A short per-minute limit is simply waited out.
 
 ## 🔍 Building trust
 

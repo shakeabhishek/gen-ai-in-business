@@ -44,7 +44,7 @@ CACHE_DIR = ROOT / ".cache"
 OUTPUT = ROOT / "job-hunt.html"
 
 # Bump when the prompt or schema changes so cached analyses are redone.
-PROMPT_VERSION = "4"
+PROMPT_VERSION = "5"
 POSTING_SUFFIXES = {".pdf", ".docx", ".txt", ".md", ".html", ".htm"}
 MIN_POSTING_CHARS = 400
 USER_AGENT = (
@@ -56,15 +56,23 @@ USER_AGENT = (
 class RoleAnalysis(BaseModel):
     title: str
     company: str
-    location: str = Field(description="As stated in the posting, or 'Not stated'.")
+    location: str = Field(description="Short, e.g. 'New York' or 'NYC or SF'. 'Not stated' if absent.")
+    work_model: str = Field(description="One or two words: 'Onsite', 'Hybrid', 'Remote', or 'Not stated'.")
+    pay: str | None = Field(description="Pay range exactly as short as possible, e.g. '$180k-$240k'. Null if not stated.")
+    headline: str = Field(
+        description="One line, at most 12 words, that tells the candidate the verdict on this role "
+        "and the main reason. e.g. 'Strong match on agent work; London-only is the blocker.'"
+    )
+    skills: list[str] = Field(description="The 3 most important required skills, 1 to 3 words each.")
     key_facts: list[str] = Field(
-        description="4 to 6 short facts from the posting: team, level, pay, "
-        "must-have skills, work model. Only what the posting says."
+        description="3 to 5 facts from the posting not already covered by pay/location/skills: "
+        "team, level, travel, years required. At most 12 words each."
     )
     fit_score: int = Field(ge=1, le=5, description="1 = poor fit, 5 = excellent fit.")
-    fit_summary: str = Field(description="Two sentences on how the CV fits this role.")
-    strengths: list[str] = Field(description="2 to 4 CV points that match the posting, each naming the CV evidence.")
-    gaps: list[str] = Field(description="1 to 3 things the posting asks for that the CV does not show.")
+    strengths: list[str] = Field(
+        description="2 to 3 CV points that match the posting, at most 15 words each, naming the CV evidence."
+    )
+    gaps: list[str] = Field(description="1 to 3 things the posting asks for that the CV lacks, at most 15 words each.")
     deadline: str | None = Field(
         description="Application deadline as YYYY-MM-DD, only if the posting states one. "
         "Null if the posting gives no deadline. Never infer from a posted date."
@@ -75,7 +83,7 @@ class RoleAnalysis(BaseModel):
     )
     interview_questions: list[str] = Field(
         description="Exactly 3 questions this interviewer is likely to ask this candidate, "
-        "tied to the posting's requirements and the candidate's background."
+        "tied to the posting's requirements and the candidate's background. One sentence each."
     )
 
 
@@ -134,6 +142,12 @@ class Role:
     news: list[dict] = field(default_factory=list)
     news_error: str | None = None
     error: str | None = None
+
+    @property
+    def slug(self) -> str:
+        """A stable anchor id, so timeline links and bookmarks survive re-sorting."""
+        name = f"{self.analysis.company}-{self.analysis.title}" if self.analysis else self.posting.source
+        return "role-" + re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")[:60]
 
     @property
     def deadline_date(self) -> dt.date | None:
@@ -241,21 +255,31 @@ def check_deadline(analysis: RoleAnalysis, posting_text: str) -> str:
 def generate(client: genai.Client, **kwargs):
     """generate_content that rides out free-tier limits instead of failing.
 
-    429 (rate limit): wait and retry the same model.
-    500/503 (model overloaded): after one retry, switch to GEMINI_FALLBACK_MODEL.
+    Each free model has its own small daily quota. When a model is out for the day
+    (429 PerDay) or overloaded (500/503), move to the next model in
+    GEMINI_FALLBACK_MODELS. A per-minute rate limit (429) just waits and retries.
     """
-    fallback = os.environ.get("GEMINI_FALLBACK_MODEL", "").strip() or "gemini-3.6-flash"
-    for attempt in range(5):
+    chain = os.environ.get("GEMINI_FALLBACK_MODELS", "").strip() or "gemini-3.6-flash,gemini-3.5-flash,gemini-3.1-flash-lite"
+    fallbacks = [m.strip() for m in chain.split(",") if m.strip() and m.strip() != kwargs["model"]]
+    waits = 0
+    while True:
         try:
             return client.models.generate_content(**kwargs)
         except genai.errors.APIError as exc:
-            if exc.code not in (429, 500, 503) or attempt == 4:
+            if exc.code not in (429, 500, 503):
                 raise
-            if exc.code != 429 and attempt >= 1 and kwargs["model"] != fallback:
-                print(f"  {kwargs['model']} is overloaded, switching to {fallback}")
-                kwargs["model"] = fallback
+            out_for_today = exc.code == 429 and "PerDay" in str(exc)
+            if (out_for_today or exc.code != 429) and fallbacks:
+                reason = "out of free quota for today" if out_for_today else "overloaded"
+                print(f"  {kwargs['model']} is {reason}, switching to {fallbacks[0]}")
+                kwargs["model"] = fallbacks.pop(0)
                 continue
-            time.sleep(10 * (attempt + 1))
+            if out_for_today:
+                raise  # every model is out for today; waiting won't help
+            waits += 1
+            if waits > 4:
+                raise
+            time.sleep(10 * waits)
 
 
 def cache_load(key: str):

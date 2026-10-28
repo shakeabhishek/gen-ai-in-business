@@ -14,48 +14,34 @@
     --ink-soft: #4A5870;
     --paper: #EEF1F4;
     --sheet: #FFFFFF;
-    --rule: #CBD3DD;
+    --rule: #D5DCE4;
     --manila: #E3C27A;
-    --manila-deep: #C9A55A;
+    --manila-soft: #F4E7C6;
     --pencil: #C23B22;
     --ledger: #2F6F55;
+    --ledger-soft: #DDEDE5;
     --sans: "Archivo", system-ui, sans-serif;
     --serif: "Source Serif 4", Georgia, serif;
   }
   * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--paper);
-    color: var(--ink);
-    font: 400 17px/1.6 var(--serif);
-  }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 400 16px/1.55 var(--serif); }
   a { color: inherit; text-underline-offset: 3px; }
-  a:focus-visible, summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+  :focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; border-radius: 4px; }
   .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
 
   /* Header + runway */
-  header { padding: 56px 0 24px; }
-  h1 {
-    font: 800 clamp(48px, 9vw, 112px)/0.9 var(--sans);
-    font-stretch: 62%;
-    letter-spacing: -0.01em;
-    margin: 0;
-  }
-  .lede { font-size: 19px; margin: 16px 0 0; max-width: 60ch; color: var(--ink-soft); }
+  header { padding: 48px 0 8px; }
+  h1 { font: 800 clamp(48px, 9vw, 104px)/0.9 var(--sans); font-stretch: 62%; letter-spacing: -0.01em; margin: 0; }
+  .lede { font-size: 18px; margin: 14px 0 0; max-width: 62ch; color: var(--ink-soft); }
   .lede strong { color: var(--ink); font-weight: 600; }
 
-  .runway { margin: 40px 0 8px; overflow-x: auto; padding-bottom: 8px; }
+  .runway { margin: 36px 0 0; overflow-x: auto; padding-bottom: 8px; }
   .track { position: relative; min-width: 640px; }
   .lanes { position: relative; }
   .mark {
-    position: absolute;
-    transform: translateX(-1px);
-    border-left: 2px solid var(--ink);
-    padding: 0 0 0 8px;
-    font: 600 14px/1.25 var(--sans);
-    font-stretch: 87%;
-    white-space: nowrap;
-    text-decoration: none;
+    position: absolute; bottom: 0; transform: translateX(-1px);
+    border-left: 2px solid var(--ink); padding: 0 0 0 8px;
+    font: 600 14px/1.25 var(--sans); font-stretch: 87%; white-space: nowrap; text-decoration: none;
   }
   .mark small { display: block; font-weight: 400; color: var(--ink-soft); }
   .mark.soon { border-color: var(--pencil); }
@@ -63,90 +49,108 @@
   .mark:hover span { text-decoration: underline; }
   .axis { position: relative; height: 34px; border-top: 2px solid var(--ink); }
   .tick { position: absolute; top: 0; height: 8px; border-left: 1px solid var(--ink); }
-  .tick span {
-    position: absolute; top: 10px; left: 0; transform: translateX(-50%);
-    font: 400 12px/1 var(--sans); color: var(--ink-soft); white-space: nowrap;
-  }
+  .tick span { position: absolute; top: 10px; left: 0; transform: translateX(-50%); font: 400 12px/1 var(--sans); color: var(--ink-soft); white-space: nowrap; }
   .tick:first-child span { transform: none; font-weight: 700; color: var(--ink); }
-  .undated { font: 400 14px/1.4 var(--sans); color: var(--ink-soft); margin: 4px 0 0; }
 
-  /* Folders */
-  main { padding: 24px 0 80px; }
-  .folder { margin: 40px 0 0; scroll-margin-top: 16px; }
-  .tab {
-    display: inline-flex; align-items: baseline; gap: 12px;
-    max-width: 100%;
-    background: var(--manila);
-    padding: 10px 20px 8px;
-    border-radius: 8px 8px 0 0;
-    font: 700 15px/1.2 var(--sans);
-    font-stretch: 100%;
+  /* Toolbar */
+  .toolbar {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px;
+    margin: 32px 0 12px; font: 500 14px/1 var(--sans);
   }
-  .tab .src { min-width: 0; font-weight: 400; font-size: 13px; color: #5B4A22; max-width: 40ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .sheet {
-    background: var(--sheet);
-    border-top: 6px solid var(--manila);
-    border-radius: 0 8px 8px 8px;
-    display: grid;
-    grid-template-columns: 260px 1fr;
+  .group { display: flex; align-items: center; gap: 6px; }
+  .group-label { color: var(--ink-soft); margin-right: 2px; }
+  .toolbar button {
+    font: inherit; color: var(--ink); background: transparent; cursor: pointer;
+    min-height: 36px; padding: 0 14px; border: 1.5px solid var(--rule); border-radius: 999px;
+    transition: background-color 150ms ease, border-color 150ms ease;
   }
-  .side { padding: 28px 24px; border-right: 1px solid var(--rule); }
-  .body { padding: 28px 32px 32px; min-width: 0; }
-  h2 {
-    font: 700 clamp(26px, 3.4vw, 36px)/1.1 var(--sans);
-    font-stretch: 75%;
-    margin: 0 0 4px;
-  }
-  .where { font: 400 15px/1.4 var(--sans); color: var(--ink-soft); margin: 0 0 20px; }
-  h3 { font: 700 15px/1.3 var(--sans); margin: 24px 0 8px; }
-  ul, ol { margin: 0; padding-left: 20px; }
-  li { margin: 0 0 6px; max-width: 72ch; }
+  .toolbar button:hover { border-color: var(--ink); }
+  .toolbar button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .count { margin-left: auto; color: var(--ink-soft); }
 
-  .due { font: 800 30px/1 var(--sans); font-stretch: 75%; }
-  .due.none { font-size: 22px; color: var(--ink-soft); }
-  .left { font: 600 14px/1.4 var(--sans); margin: 6px 0 0; }
-  .left.soon { color: var(--pencil); }
-  .proof { margin: 14px 0 0; font-size: 14px; line-height: 1.5; }
+  /* Role rows */
+  .roles { display: flex; flex-direction: column; gap: 8px; padding-bottom: 24px; }
+  .role { background: var(--sheet); border-radius: 10px; border: 1.5px solid transparent; scroll-margin-top: 16px; }
+  .role:hover { border-color: var(--rule); }
+  .role[open] { border-color: var(--ink); }
+  .role[hidden] { display: none; }
+  summary {
+    list-style: none; cursor: pointer;
+    display: grid; grid-template-columns: 56px minmax(0, 1fr) 132px 24px; gap: 18px; align-items: center;
+    padding: 16px 20px; min-height: 88px;
+  }
+  summary::-webkit-details-marker { display: none; }
+
+  .score {
+    width: 56px; height: 56px; border-radius: 8px; display: grid; place-items: center;
+    font: 800 28px/1 var(--sans); font-stretch: 75%; background: var(--rule); color: var(--ink);
+  }
+  .score small { display: block; font: 500 11px/1 var(--sans); text-align: center; margin-top: -10px; }
+  .score.s3 { background: var(--manila-soft); }
+  .score.s4, .score.s5 { background: var(--ledger); color: #fff; }
+
+  .main { min-width: 0; }
+  .co { font: 600 13px/1.2 var(--sans); color: var(--ink-soft); }
+  .title { font: 700 20px/1.2 var(--sans); font-stretch: 80%; margin: 2px 0 4px; }
+  .headline { font-size: 15px; line-height: 1.4; color: var(--ink-soft); margin: 0; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; font: 500 12px/1 var(--sans); }
+  .chip { padding: 5px 9px; border-radius: 999px; background: var(--paper); white-space: nowrap; }
+  .chip.pay { background: var(--manila-soft); font-weight: 700; }
+  .chip.skill { background: transparent; border: 1px solid var(--rule); }
+
+  .when { text-align: right; font-family: var(--sans); }
+  .when b { display: block; font: 800 22px/1 var(--sans); font-stretch: 75%; }
+  .when span { display: block; font-size: 13px; margin-top: 4px; color: var(--ink-soft); }
+  .when.soon span { color: var(--pencil); font-weight: 700; }
+  .when.none b { font-size: 16px; font-weight: 600; color: var(--ink-soft); }
+
+  .chev { width: 20px; height: 20px; color: var(--ink-soft); transition: transform 150ms ease; }
+  .role[open] .chev { transform: rotate(180deg); }
+
+  /* Expanded detail */
+  .detail { padding: 4px 20px 24px 94px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 32px; }
+  .detail h3 { font: 700 13px/1.3 var(--sans); margin: 0 0 8px; color: var(--ink-soft); }
+  .detail ul, .detail ol { margin: 0; padding-left: 18px; font-size: 15px; }
+  .detail li { margin: 0 0 6px; }
+  .detail .wide { grid-column: span 2; }
+  .detail .full { grid-column: 1 / -1; }
+  .yes li::marker { color: var(--ledger); }
+  .no li::marker { color: var(--pencil); }
+  .facts li::marker { color: var(--manila); }
+  .proof { font-size: 14px; margin: 0; }
   .proof q { font-style: italic; }
-  .check { display: block; font: 600 13px/1.3 var(--sans); margin: 8px 0 0; }
+  .check { display: block; font: 600 12px/1.3 var(--sans); margin-top: 6px; }
   .check.ok { color: var(--ledger); }
   .check.bad { color: var(--pencil); }
+  .cite { font: 400 12px/1.4 var(--sans); color: var(--ink-soft); }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; border-top: 1px solid var(--rule); padding-top: 16px; font: 500 14px/1 var(--sans); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 18px;
+    background: var(--ink); color: #fff; border-radius: 999px; text-decoration: none; font-weight: 600;
+  }
+  .btn:hover { background: #2C3E5A; }
+  .note { color: var(--ink-soft); }
 
-  .fit { margin: 28px 0 0; }
-  .pips { display: flex; gap: 4px; margin: 8px 0 6px; }
-  .pip { width: 100%; height: 10px; background: var(--rule); border-radius: 1px; }
-  .pip.on { background: var(--ink); }
-  .fit.high .pip.on { background: var(--ledger); }
-  .fit-label { font: 700 15px/1.3 var(--sans); }
-  .note { margin: 20px 0 0; font-size: 14px; color: var(--ink-soft); }
-
-  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
-  .facts li::marker { color: var(--manila-deep); }
-  .gaps li::marker { color: var(--pencil); }
-  .questions li { margin-bottom: 10px; }
-  .news li { margin-bottom: 10px; }
-  .cites { font: 400 13px/1.4 var(--sans); color: var(--ink-soft); }
-  .cites a { margin-right: 10px; }
-  .muted { color: var(--ink-soft); font-size: 15px; }
-
-  .skipped { margin: 56px 0 0; padding: 24px; border: 2px dashed var(--rule); border-radius: 8px; }
-  .skipped h2 { font-size: 24px; }
+  .skipped { margin: 32px 0 0; padding: 20px; border: 2px dashed var(--rule); border-radius: 10px; font-size: 15px; }
+  .skipped h2 { font: 700 18px/1.2 var(--sans); margin: 0 0 8px; }
   .skipped li { word-break: break-all; }
-  footer { font: 400 13px/1.5 var(--sans); color: var(--ink-soft); padding: 0 0 40px; }
-  .empty { font-size: 19px; margin: 40px 0; max-width: 60ch; }
+  .empty { font-size: 18px; margin: 40px 0; max-width: 60ch; }
+  footer { font: 400 13px/1.5 var(--sans); color: var(--ink-soft); padding: 32px 0 48px; }
 
   @media (max-width: 760px) {
     header { padding-top: 32px; }
-    .sheet { grid-template-columns: 1fr; }
-    .side { border-right: 0; border-bottom: 1px solid var(--rule); }
-    .body { padding: 24px 20px; }
-    .two { grid-template-columns: 1fr; }
+    summary { grid-template-columns: 48px minmax(0, 1fr) 20px; gap: 12px; padding: 14px; }
+    .score { width: 48px; height: 48px; font-size: 24px; align-self: start; }
+    .when { grid-column: 2; grid-row: 2; text-align: left; display: flex; gap: 8px; align-items: baseline; }
+    .when b { font-size: 16px; }
+    .when span { margin: 0; }
+    .chev { grid-column: 3; grid-row: 1; }
+    .detail { grid-template-columns: 1fr; padding: 0 14px 20px; }
+    .detail .wide { grid-column: auto; }
+    .count { margin-left: 0; width: 100%; }
   }
-  @media print {
-    body { background: #fff; }
-    .runway { display: none; }
-    .folder { break-inside: avoid; }
-  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  @media print { .toolbar, .runway { display: none; } .role { break-inside: avoid; } }
 </style>
 </head>
 <body>
@@ -156,18 +160,17 @@
     {% set dated = runway.marks %}
     {% if roles %}
     <p class="lede">
-      <strong>{{ roles|length }} role{{ 's' if roles|length != 1 }}</strong>, sorted by deadline.
-      {% if dated %}The next one closes {{ dated[0].role.deadline_date|nice_date }}{% if dated[0].days <= 0 %}, today{% else %}, in {{ dated[0].days }} day{{ 's' if dated[0].days != 1 }}{% endif %}.{% else %}None of the postings state a deadline.{% endif %}
+      <strong>{{ roles|length }} role{{ 's' if roles|length != 1 }}.</strong>
+      {% if dated %}The next deadline is {{ dated[0].role.analysis.company }}, {{ dated[0].role.deadline_date|nice_date }}{% if dated[0].days <= 0 %} (today){% else %}, in {{ dated[0].days }} day{{ 's' if dated[0].days != 1 }}{% endif %}.{% else %}None of them state a deadline, so they close when filled. Best fits are first.{% endif %}
+      Click a role for the details.
     </p>
     {% if dated %}
     <div class="runway" aria-label="Deadlines on a timeline">
       <div class="track">
         <div class="lanes" style="height: {{ runway.lanes * 48 }}px">
           {% for m in dated %}
-          <a class="mark{{ ' soon' if m.days <= 7 }}" href="#role-{{ loop.index }}"
-             style="left: {{ '%.2f'|format(m.pos) }}%; bottom: 0; height: {{ m.lane * 48 + 48 }}px">
-            <span>{{ m.role.analysis.company }}</span>
-            <small>{{ m.role.deadline_date.strftime('%b %-d') }}</small>
+          <a class="mark{{ ' soon' if m.days <= 7 }}" href="#{{ m.role.slug }}" style="left: {{ '%.2f'|format(m.pos) }}%; height: {{ m.lane * 48 + 48 }}px">
+            <span>{{ m.role.analysis.company }}</span><small>{{ m.role.deadline_date.strftime('%b %-d') }}</small>
           </a>
           {% endfor %}
         </div>
@@ -177,85 +180,104 @@
       </div>
     </div>
     {% endif %}
-    {% set undated = roles|rejectattr('deadline_date')|list %}
-    {% if undated and dated %}<p class="undated">No deadline stated: {{ undated|map(attribute='analysis.company')|join(', ') }}</p>{% endif %}
     {% endif %}
   </header>
 
   <main>
     {% if not roles %}
     <p class="empty">No postings yet. Drop a posting into the <code>postings</code> folder or add a link to <code>postings.csv</code>, then run <code>python build.py</code>.</p>
-    {% endif %}
+    {% else %}
+    <div class="toolbar" role="toolbar" aria-label="Sort and filter roles">
+      {% if dated %}
+      <div class="group"><span class="group-label">Sort</span>
+        <button type="button" data-sort="deadline" aria-pressed="true">Deadline</button>
+        <button type="button" data-sort="fit" aria-pressed="false">Best fit</button>
+      </div>
+      {% endif %}
+      <div class="group"><span class="group-label">Show</span>
+        <button type="button" data-filter="fit" aria-pressed="false">Fit 4+ only</button>
+        {% if dated %}<button type="button" data-filter="dated" aria-pressed="false">Has a deadline</button>{% endif %}
+      </div>
+      <button type="button" id="toggle-all" aria-pressed="false">Expand all</button>
+      <span class="count" id="count" aria-live="polite"></span>
+    </div>
 
+    <div class="roles" id="roles">
     {% for r in roles %}
     {% set a = r.analysis %}
-    <section class="folder" id="role-{{ loop.index }}">
-      <div class="tab">{{ a.company }}<span class="src" title="{{ r.posting.source }}">{{ r.posting.source }}</span></div>
-      <div class="sheet">
-        <aside class="side">
-          {% if r.deadline_date %}
-            {% set days = (r.deadline_date - today).days %}
-            <div class="due">{{ r.deadline_date.strftime('%b %-d') }}</div>
-            <p class="left{{ ' soon' if days <= 7 }}">
-              {% if days < 0 %}Closed {{ -days }} day{{ 's' if days != -1 }} ago{% elif days == 0 %}Closes today{% else %}{{ days }} day{{ 's' if days != 1 }} left{% endif %}
-            </p>
-            <p class="proof">The posting says: <q>{{ a.deadline_quote }}</q>
-              {% if r.deadline_check == 'verified' %}
-              <span class="check ok">Quote found in the posting</span>
-              {% else %}
-              <span class="check bad">Quote not found in the posting. Check the deadline yourself.</span>
-              {% endif %}
-            </p>
-          {% else %}
-            <div class="due none">No deadline stated</div>
-            <p class="proof">The posting doesn't give an application deadline. Many roles close once filled, so apply early.</p>
-          {% endif %}
-
-          <div class="fit{{ ' high' if a.fit_score >= 4 }}">
-            <div class="fit-label">Fit {{ a.fit_score }} of 5</div>
-            <div class="pips" role="img" aria-label="Fit score {{ a.fit_score }} of 5">
-              {% for i in range(5) %}<span class="pip{{ ' on' if i < a.fit_score }}"></span>{% endfor %}
-            </div>
+    {% set days = (r.deadline_date - today).days if r.deadline_date else none %}
+    <details class="role" id="{{ r.slug }}" data-order="{{ loop.index }}" data-fit="{{ a.fit_score }}" data-dated="{{ 1 if r.deadline_date else 0 }}">
+      <summary>
+        <div class="score s{{ a.fit_score }}" aria-label="Fit {{ a.fit_score }} of 5">{{ a.fit_score }}</div>
+        <div class="main">
+          <div class="co">{{ a.company }}</div>
+          <div class="title">{{ a.title }}</div>
+          <p class="headline">{{ a.headline }}</p>
+          <div class="chips">
+            {% if a.pay %}<span class="chip pay">{{ a.pay }}</span>{% endif %}
+            <span class="chip">{{ a.location }}{% if a.work_model and a.work_model != 'Not stated' %}, {{ a.work_model|lower }}{% endif %}</span>
+            {% for s in a.skills[:3] %}<span class="chip skill">{{ s }}</span>{% endfor %}
           </div>
-          {% if r.posting.note %}<p class="note">Your note: {{ r.posting.note }}</p>{% endif %}
-        </aside>
+        </div>
+        {% if r.deadline_date %}
+        <div class="when{{ ' soon' if days <= 7 }}">
+          <b>{{ r.deadline_date.strftime('%b %-d') }}</b>
+          <span>{% if days < 0 %}Closed{% elif days == 0 %}Closes today{% else %}{{ days }} day{{ 's' if days != 1 }} left{% endif %}</span>
+        </div>
+        {% else %}
+        <div class="when none">{% if dated %}<span>No deadline</span>{% endif %}</div>
+        {% endif %}
+        <svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>
+      </summary>
 
-        <div class="body">
-          <h2>{{ a.title }}</h2>
-          <p class="where">{{ a.location }}{% if r.posting.source.startswith('http') %}<br><a href="{{ r.posting.source }}" target="_blank" rel="noopener">Open the original posting</a>{% endif %}</p>
-
+      <div class="detail">
+        <div>
+          <h3>Why you fit</h3>
+          <ul class="yes">{% for s in a.strengths %}<li>{{ s }}</li>{% endfor %}</ul>
+        </div>
+        <div>
+          <h3>Gaps to address</h3>
+          <ul class="no">{% for g in a.gaps %}<li>{{ g }}</li>{% endfor %}</ul>
+        </div>
+        <div>
+          <h3>About the role</h3>
           <ul class="facts">{% for f in a.key_facts %}<li>{{ f }}</li>{% endfor %}</ul>
+        </div>
 
-          <h3>How it fits your CV</h3>
-          <p>{{ a.fit_summary }}</p>
-          <div class="two">
-            <div>
-              <h3>Where you match</h3>
-              <ul>{% for s in a.strengths %}<li>{{ s }}</li>{% endfor %}</ul>
-            </div>
-            <div>
-              <h3>What's missing</h3>
-              <ul class="gaps">{% for g in a.gaps %}<li>{{ g }}</li>{% endfor %}</ul>
-            </div>
-          </div>
-
-          <h3>Likely interview questions</h3>
-          <ol class="questions">{% for q in a.interview_questions %}<li>{{ q }}</li>{% endfor %}</ol>
-
-          {% if r.news or r.news_error %}
-          <h3>Recent news on {{ a.company }}</h3>
-          {% if r.news %}
-          <ul class="news">
-            {% for n in r.news %}
-            <li>{{ n.text }}<br><span class="cites">Source: {% for s in n.sources %}<a href="{{ s.url }}" target="_blank" rel="noopener">{{ s.label }}</a>{% endfor %}</span></li>
-            {% endfor %}
-          </ul>
-          {% else %}<p class="muted">{{ r.news_error }}</p>{% endif %}
+        <div class="wide">
+          <h3>Interview prep</h3>
+          <ol>{% for q in a.interview_questions %}<li>{{ q }}</li>{% endfor %}</ol>
+        </div>
+        <div>
+          <h3>Deadline source</h3>
+          {% if r.deadline_date %}
+          <p class="proof"><q>{{ a.deadline_quote }}</q>
+            {% if r.deadline_check == 'verified' %}<span class="check ok">Found in the posting</span>
+            {% else %}<span class="check bad">Not found in the posting. Check it yourself.</span>{% endif %}
+          </p>
+          {% else %}
+          <p class="proof">The posting doesn't state one, so none is shown.</p>
           {% endif %}
         </div>
+
+        {% if r.news or r.news_error %}
+        <div class="full">
+          <h3>Recent news on {{ a.company }}</h3>
+          {% if r.news %}
+          <ul>{% for n in r.news %}<li>{{ n.text }} {% for s in n.sources %}<a class="cite" href="{{ s.url }}" target="_blank" rel="noopener">{{ s.label }}</a>{% endfor %}</li>{% endfor %}</ul>
+          {% else %}<p class="note">{{ r.news_error }}</p>{% endif %}
+        </div>
+        {% endif %}
+
+        <div class="full actions">
+          {% if r.posting.source.startswith('http') %}<a class="btn" href="{{ r.posting.source }}" target="_blank" rel="noopener">Open the posting</a>{% else %}<span class="note">From postings/{{ r.posting.source }}</span>{% endif %}
+          {% if r.posting.note %}<span class="note">Your note: {{ r.posting.note }}</span>{% endif %}
+        </div>
       </div>
-    </section>
+    </details>
     {% endfor %}
+    </div>
+    {% endif %}
 
     {% if skipped %}
     <section class="skipped">
@@ -267,5 +289,55 @@
 
   <footer>Built {{ built_at }} from cv.pdf{% if live %}. Watching the folder; this page refreshes itself.{% endif %}</footer>
 </div>
+
+<script>
+(() => {
+  const list = document.getElementById('roles');
+  if (!list) return;
+  const rows = [...list.children];
+  const state = { sort: 'deadline', fit: false, dated: false };
+  const toggleAll = document.getElementById('toggle-all');
+
+  function apply() {
+    const sorted = [...rows].sort((a, b) => state.sort === 'fit'
+      ? (b.dataset.fit - a.dataset.fit) || (a.dataset.order - b.dataset.order)
+      : a.dataset.order - b.dataset.order);
+    let shown = 0;
+    for (const row of sorted) {
+      const hide = (state.fit && row.dataset.fit < 4) || (state.dated && row.dataset.dated === '0');
+      row.hidden = hide;
+      if (!hide) shown++;
+      list.appendChild(row);
+    }
+    document.getElementById('count').textContent = `Showing ${shown} of ${rows.length}`;
+  }
+
+  document.querySelectorAll('[data-sort]').forEach(btn => btn.addEventListener('click', () => {
+    state.sort = btn.dataset.sort;
+    document.querySelectorAll('[data-sort]').forEach(b => b.setAttribute('aria-pressed', b === btn));
+    apply();
+  }));
+  document.querySelectorAll('[data-filter]').forEach(btn => btn.addEventListener('click', () => {
+    state[btn.dataset.filter] = !state[btn.dataset.filter];
+    btn.setAttribute('aria-pressed', state[btn.dataset.filter]);
+    apply();
+  }));
+  toggleAll.addEventListener('click', () => {
+    const open = toggleAll.getAttribute('aria-pressed') !== 'true';
+    rows.forEach(r => { r.open = open; });
+    toggleAll.setAttribute('aria-pressed', open);
+    toggleAll.textContent = open ? 'Collapse all' : 'Expand all';
+  });
+
+  // Clicking a company on the timeline opens its row.
+  function openFromHash() {
+    const row = location.hash && document.getElementById(location.hash.slice(1));
+    if (row && row.tagName === 'DETAILS') { row.hidden = false; row.open = true; row.scrollIntoView({ block: 'start' }); }
+  }
+  window.addEventListener('hashchange', openFromHash);
+  apply();
+  openFromHash();
+})();
+</script>
 </body>
 </html>
