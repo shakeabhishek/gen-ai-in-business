@@ -26,6 +26,7 @@ One row per role, built to scan in seconds. Each row shows the **fit score**, a 
 - 📌 **Key facts**: team, pay, location, must-have skills.
 - 💬 **Three likely interview questions**, tied to the role and to your background.
 - 📰 **Recent company news**, each fact linked to its source article.
+- ✉️ **A cover letter draft**, written from your CV and that posting. Click **Cover letter** to preview it as a PDF, then download the PDF or a Word file, or copy the text.
 
 Sort by deadline or best fit, filter to fit 4+, or expand everything at once. A timeline at the top shows what closes next, and clicking a company on it opens that role.
 
@@ -63,6 +64,7 @@ Get a free key at [Google AI Studio](https://aistudio.google.com/apikey). Then:
 .venv/bin/python build.py            # build job-hunt.html and open it
 .venv/bin/python build.py --watch    # rebuild every time you drop in a posting
 .venv/bin/python build.py --no-news  # skip the company news
+.venv/bin/python build.py --no-letters  # skip the cover letters
 ```
 
 > [!TIP]
@@ -89,6 +91,7 @@ The handout says to check one summary against the original posting, and to ask w
 |:--|:--|
 | **Deadline** | The model must copy the sentence that states the deadline. The script searches the posting for it and shows ✅ *Quote found in the posting* or ⚠️ *Quote not found*. No deadline in the posting means the page says so instead of guessing, and a "posted on" date never counts. |
 | **News** | The script fetches real headlines first. The model can only pick from that list by number, so every fact links to an article that exists. A pick that points outside the list is dropped. |
+| **Cover letters** | The letter may only use facts from your CV and the posting. The script then pulls every number out of the letter and looks for it in both (it knows 16K and 16,000 are the same). Any number it can't find, a leftover `[placeholder]`, a missing company name, or a letter far off 250 to 320 words is listed under **Check before sending**. Letters never mention gaps or promise things your CV doesn't say, like relocating. |
 | **Fit** | Each match names the CV evidence behind it, and gaps are listed next to it, so you can check the score against your own read. |
 
 > [!NOTE]
@@ -105,6 +108,7 @@ job-hunt-in-a-folder/
 ├── postings/         # drop posting files here
 ├── postings.csv      # or list links here
 ├── .env.example      # copy to .env and add your key
+├── cover-letters/    # a PDF and .docx per role (gitignored)
 ├── cv.pdf            # your CV        (gitignored)
 ├── .env              # your API key   (gitignored)
 └── job-hunt.html     # the output     (gitignored, it quotes your CV)

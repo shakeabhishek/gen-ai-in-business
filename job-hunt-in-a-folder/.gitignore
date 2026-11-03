@@ -6,3 +6,5 @@ job-hunt.html
 # Local state
 .cache/
 .venv/
+# Cover letters (they contain your details)
+cover-letters/

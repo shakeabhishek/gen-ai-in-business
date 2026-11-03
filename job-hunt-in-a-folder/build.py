@@ -3,11 +3,13 @@
 Reads cv.pdf, every posting file in postings/, and every link in postings.csv,
 then builds job-hunt.html: one entry per role with key facts, fit against the
 CV (1-to-5), the deadline and the exact posting text it came from, three
-interview questions, and recent company news with a source on every fact.
+interview questions, recent company news with a source on every fact, and a
+cover letter draft (also saved as .docx in cover-letters/).
 
-    python build.py            build the page and open it
-    python build.py --watch    rebuild whenever a posting is added or changed
-    python build.py --no-news  skip the web search for company news
+    python build.py               build the page and open it
+    python build.py --watch       rebuild whenever a posting is added or changed
+    python build.py --no-news     skip the company news
+    python build.py --no-letters  skip the cover letters
 """
 
 from __future__ import annotations
@@ -42,9 +44,12 @@ POSTINGS_DIR = ROOT / "postings"
 POSTINGS_CSV = ROOT / "postings.csv"
 CACHE_DIR = ROOT / ".cache"
 OUTPUT = ROOT / "job-hunt.html"
+LETTERS_DIR = ROOT / "cover-letters"
 
 # Bump when the prompt or schema changes so cached analyses are redone.
 PROMPT_VERSION = "5"
+LETTER_VERSION = "1"
+REQUEST_TIMEOUT_S = 90
 POSTING_SUFFIXES = {".pdf", ".docx", ".txt", ".md", ".html", ".htm"}
 MIN_POSTING_CHARS = 400
 USER_AGENT = (
@@ -126,6 +131,38 @@ For each, state only what the headline says. Do not add facts that are not in it
 """
 
 
+class CoverLetter(BaseModel):
+    greeting: str = Field(description="'Dear Hiring Team,' unless the posting names the hiring manager.")
+    paragraphs: list[str] = Field(description="3 or 4 paragraphs, 250 to 320 words in total.")
+    closing: str = Field(description="e.g. 'Best regards,'")
+    name: str = Field(description="The candidate's name exactly as written on the CV.")
+
+
+LETTER_PROMPT = """Write a cover letter from the candidate, in the first person, for the role below.
+The candidate's CV is attached as a PDF.
+
+Rules:
+- 250 to 320 words, 3 or 4 paragraphs.
+- Open with why this role at {company} specifically, using a concrete detail from the posting.
+  Do not open with "I am writing to".
+- Then give two concrete achievements from the CV that answer the posting's main requirements.
+  Use only facts, numbers, employers, titles and dates that appear in the CV. Never invent a metric.
+- Do not mention gaps, and do not promise anything the CV doesn't state (relocation, start date,
+  visa status, years of experience).
+- Plain, specific and confident. No cliches such as "passionate", "thrilled", "leverage",
+  "synergy", or "I believe I would be a great fit". No em dashes.
+- End with one short line asking for a conversation.
+
+What the CV evidence suggests matches (from an earlier read; verify against the CV):
+{strengths}
+
+ROLE: {title} at {company}
+
+POSTING TEXT:
+{text}
+"""
+
+
 @dataclass
 class Posting:
     source: str  # file name or URL
@@ -141,6 +178,11 @@ class Role:
     deadline_check: str = "none"  # verified | unverified | none
     news: list[dict] = field(default_factory=list)
     news_error: str | None = None
+    letter: CoverLetter | None = None
+    letter_flags: list[str] = field(default_factory=list)
+    letter_pdf: str | None = None  # paths relative to the page, for preview and download
+    letter_docx: str | None = None
+    letter_error: str | None = None
     error: str | None = None
 
     @property
@@ -165,7 +207,11 @@ class Role:
 def read_file(path: Path) -> str:
     suffix = path.suffix.lower()
     if suffix == ".pdf":
+        import logging
+
         from pypdf import PdfReader
+
+        logging.getLogger("pypdf").setLevel(logging.ERROR)  # malformed-but-readable PDFs warn loudly
 
         return "\n".join(page.extract_text() or "" for page in PdfReader(path).pages)
     if suffix == ".docx":
@@ -265,12 +311,13 @@ def generate(client: genai.Client, **kwargs):
     while True:
         try:
             return client.models.generate_content(**kwargs)
-        except genai.errors.APIError as exc:
-            if exc.code not in (429, 500, 503):
+        except (genai.errors.APIError, httpx.TimeoutException) as exc:
+            code = 504 if isinstance(exc, httpx.TimeoutException) else exc.code
+            if code not in (429, 500, 503, 504):
                 raise
-            out_for_today = exc.code == 429 and "PerDay" in str(exc)
-            if (out_for_today or exc.code != 429) and fallbacks:
-                reason = "out of free quota for today" if out_for_today else "overloaded"
+            out_for_today = code == 429 and "PerDay" in str(exc)
+            if (out_for_today or code != 429) and fallbacks:
+                reason = "out of free quota for today" if out_for_today else "timed out" if code == 504 else "overloaded"
                 print(f"  {kwargs['model']} is {reason}, switching to {fallbacks[0]}")
                 kwargs["model"] = fallbacks.pop(0)
                 continue
@@ -382,6 +429,120 @@ def company_news(client: genai.Client, model: str, company: str, title: str) -> 
     return news
 
 
+def write_letter(client: genai.Client, model: str, cv_bytes: bytes, posting: Posting, analysis: RoleAnalysis) -> CoverLetter:
+    key = "letter-" + hashlib.sha256(
+        b"|".join([LETTER_VERSION.encode(), model.encode(), cv_bytes, posting.text.encode(),
+                   analysis.model_dump_json().encode()])
+    ).hexdigest()[:20]
+    if cached := cache_load(key):
+        return CoverLetter.model_validate(cached)
+
+    prompt = LETTER_PROMPT.format(
+        company=analysis.company, title=analysis.title, text=posting.text[:60_000],
+        strengths="\n".join(f"- {s}" for s in analysis.strengths),
+    )
+    resp = generate(
+        client,
+        model=model,
+        contents=[types.Part.from_bytes(data=cv_bytes, mime_type="application/pdf"), prompt],
+        config=types.GenerateContentConfig(
+            response_mime_type="application/json", response_schema=CoverLetter, temperature=0.4
+        ),
+    )
+    letter = resp.parsed if isinstance(resp.parsed, CoverLetter) else CoverLetter.model_validate_json(resp.text)
+    cache_save(key, letter.model_dump())
+    return letter
+
+
+NUMBER = re.compile(r"(\d[\d,]*(?:\.\d+)?)\s?([kKmMbB](?![a-zA-Z]))?")
+SCALE = {"k": 1e3, "m": 1e6, "b": 1e9}
+
+
+def number_forms(raw: str, suffix: str | None) -> set[str]:
+    """'16K' and '16,000' are the same number; return every way to write it."""
+    value = float(raw.replace(",", "").rstrip("."))
+    forms = {f"{value:g}"}
+    if suffix:
+        forms.add(f"{value * SCALE[suffix.lower()]:g}")
+    return forms
+
+
+def check_letter(letter: CoverLetter, company: str, cv_text: str, posting_text: str) -> list[str]:
+    """The trust check for letters: every number must come from the CV or the posting."""
+    body = " ".join(letter.paragraphs)
+    known = set()
+    for raw, suffix in NUMBER.findall(cv_text + " " + posting_text):
+        known |= number_forms(raw, suffix)
+    flags = []
+    for match in dict.fromkeys(m.group(0) for m in NUMBER.finditer(body)):
+        raw, suffix = NUMBER.fullmatch(match).groups()
+        if not number_forms(raw, suffix) & known:
+            flags.append(f"\u201c{match.strip()}\u201d isn't in your CV or the posting. Check it or cut it.")
+    if re.search(r"\[[^\]]*\]", body):
+        flags.append("The letter still has a [placeholder] in it.")
+    # "Palantir" is enough for "Palantir Technologies".
+    short_name = re.sub(r"\b(technologies|technology|inc|llc|ltd|corp|corporation|co)\b\.?", "", company, flags=re.I).strip(" ,.")
+    if short_name.lower() not in body.lower():
+        flags.append(f"The letter never names {company}.")
+    words = len(body.split())
+    if not 180 <= words <= 400:
+        flags.append(f"The letter is {words} words; aim for 250 to 320.")
+    return flags
+
+
+def letter_filename(role_name: str) -> str:
+    return re.sub(r'[\\/:*?"<>|]+', "-", role_name).strip()[:100]
+
+
+def save_letter_pdf(letter: CoverLetter, role_name: str) -> Path:
+    """A one-page US Letter PDF, used for the preview and the download."""
+    from xml.sax.saxutils import escape
+
+    from reportlab.lib.pagesizes import LETTER
+    from reportlab.lib.styles import ParagraphStyle
+    from reportlab.lib.units import inch
+    from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
+
+    LETTERS_DIR.mkdir(exist_ok=True)
+    path = LETTERS_DIR / f"{letter_filename(role_name)}.pdf"
+    body = ParagraphStyle("body", fontName="Times-Roman", fontSize=11.5, leading=16.5, spaceAfter=10)
+    name = ParagraphStyle("name", parent=body, fontName="Times-Bold", fontSize=15, leading=18, spaceAfter=2)
+    doc = SimpleDocTemplate(
+        str(path), pagesize=LETTER, title=f"Cover letter - {role_name}", author=letter.name,
+        leftMargin=inch, rightMargin=inch, topMargin=0.9 * inch, bottomMargin=0.9 * inch,
+    )
+    story = [
+        Paragraph(escape(letter.name), name),
+        Paragraph(dt.date.today().strftime("%B %-d, %Y"), body),
+        Spacer(1, 8),
+        Paragraph(escape(letter.greeting), body),
+        *[Paragraph(escape(para), body) for para in letter.paragraphs],
+        Spacer(1, 4),
+        Paragraph(f"{escape(letter.closing)}<br/>{escape(letter.name)}", body),
+    ]
+    doc.build(story)
+    return path
+
+
+def save_letter_docx(letter: CoverLetter, role_name: str) -> Path:
+    import docx
+    from docx.shared import Pt
+
+    LETTERS_DIR.mkdir(exist_ok=True)
+    doc = docx.Document()
+    style = doc.styles["Normal"]
+    style.font.name = "Georgia"
+    style.font.size = Pt(11)
+    doc.add_paragraph(dt.date.today().strftime("%B %-d, %Y"))
+    doc.add_paragraph(letter.greeting)
+    for para in letter.paragraphs:
+        doc.add_paragraph(para)
+    doc.add_paragraph(f"{letter.closing}\n{letter.name}")
+    path = LETTERS_DIR / f"{letter_filename(role_name)}.docx"
+    doc.save(path)
+    return path
+
+
 # ---------------------------------------------------------------- page
 
 
@@ -422,7 +583,7 @@ def render(roles: list[Role], skipped: list[Posting], live: bool) -> None:
     OUTPUT.write_text(html)
 
 
-def build(news: bool, live: bool = False) -> int:
+def build(news: bool, letters: bool = True, live: bool = False) -> int:
     load_dotenv(ROOT / ".env")
     api_key = os.environ.get("GEMINI_API_KEY", "").strip()
     if not api_key:
@@ -430,8 +591,10 @@ def build(news: bool, live: bool = False) -> int:
     if not CV_PATH.exists():
         sys.exit(f"No CV found. Put your CV at {CV_PATH.name}.")
     model = os.environ.get("GEMINI_MODEL", "").strip() or "gemini-3.8-flash"
-    client = genai.Client(api_key=api_key)
+    # A request with no timeout can hang for many minutes on an overloaded free model.
+    client = genai.Client(api_key=api_key, http_options=types.HttpOptions(timeout=REQUEST_TIMEOUT_S * 1000))
     cv_bytes = CV_PATH.read_bytes()
+    cv_text = read_file(CV_PATH)
 
     postings = collect_postings()
     readable = [p for p in postings if not p.error]
@@ -451,6 +614,16 @@ def build(news: bool, live: bool = False) -> int:
                 role.news = company_news(client, model,role.analysis.company, role.analysis.title)
             except Exception as exc:  # noqa: BLE001
                 role.news_error = f"News search failed: {exc}"
+        if letters:
+            try:
+                a = role.analysis
+                role.letter = write_letter(client, model, cv_bytes, p, a)
+                role.letter_flags = check_letter(role.letter, a.company, cv_text, p.text)
+                name = f"{a.company} - {a.title}"
+                role.letter_pdf = save_letter_pdf(role.letter, name).relative_to(ROOT).as_posix()
+                role.letter_docx = save_letter_docx(role.letter, name).relative_to(ROOT).as_posix()
+            except Exception as exc:  # noqa: BLE001
+                role.letter_error = f"Cover letter failed: {exc}"
         print(f"  done: {role.analysis.company} - {role.analysis.title}")
         return role
 
@@ -464,7 +637,7 @@ def build(news: bool, live: bool = False) -> int:
     return len(failed) + len(skipped)
 
 
-def watch(news: bool) -> None:
+def watch(news: bool, letters: bool) -> None:
     from watchdog.events import FileSystemEventHandler
     from watchdog.observers import Observer
 
@@ -491,7 +664,7 @@ def watch(news: bool) -> None:
             if Changed.last > pending_since and time.time() - Changed.last > 2:
                 pending_since = Changed.last
                 print("Change detected, rebuilding...")
-                build(news, live=True)
+                build(news, letters, live=True)
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
@@ -501,15 +674,16 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--watch", action="store_true", help="rebuild when postings change")
     parser.add_argument("--no-news", action="store_true", help="skip the company news search")
+    parser.add_argument("--no-letters", action="store_true", help="skip the cover letter drafts")
     parser.add_argument("--no-open", action="store_true", help="don't open the page in a browser")
     args = parser.parse_args()
     POSTINGS_DIR.mkdir(exist_ok=True)
 
-    build(news=not args.no_news, live=args.watch)
+    build(news=not args.no_news, letters=not args.no_letters, live=args.watch)
     if not args.no_open:
         webbrowser.open(OUTPUT.as_uri())
     if args.watch:
-        watch(news=not args.no_news)
+        watch(news=not args.no_news, letters=not args.no_letters)
 
 
 if __name__ == "__main__":

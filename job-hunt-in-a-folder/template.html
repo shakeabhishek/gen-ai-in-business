@@ -105,7 +105,7 @@
   .when.none b { font-size: 16px; font-weight: 600; color: var(--ink-soft); }
 
   .chev { width: 20px; height: 20px; color: var(--ink-soft); transition: transform 150ms ease; }
-  .role[open] .chev { transform: rotate(180deg); }
+  .role[open] > summary .chev { transform: rotate(180deg); }
 
   /* Expanded detail */
   .detail { padding: 4px 20px 24px 94px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 32px; }
@@ -126,10 +126,39 @@
   .actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; border-top: 1px solid var(--rule); padding-top: 16px; font: 500 14px/1 var(--sans); }
   .btn {
     display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 18px;
-    background: var(--ink); color: #fff; border-radius: 999px; text-decoration: none; font-weight: 600;
+    background: var(--ink); color: #fff; border-radius: 999px; text-decoration: none; font: 600 14px/1 var(--sans);
   }
   .btn:hover { background: #2C3E5A; }
   .note { color: var(--ink-soft); }
+
+  /* Cover letter preview */
+  .letter-status { font: 500 13px/1.3 var(--sans); }
+  .letter-status.ok { color: var(--ledger); }
+  .letter-status.bad { color: var(--pencil); }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); cursor: pointer; font: 600 14px/1 var(--sans); }
+  .btn.ghost:hover { background: var(--paper); }
+  dialog.preview {
+    width: min(1040px, calc(100vw - 32px)); height: min(92vh, 1000px); padding: 0;
+    border: 0; border-radius: 12px; color: var(--ink); background: var(--sheet);
+  }
+  dialog.preview::backdrop { background: rgba(27, 42, 65, 0.55); }
+  .preview-inner { display: grid; grid-template-columns: minmax(0, 1fr) 300px; grid-template-rows: auto minmax(0, 1fr); height: 100%; }
+  .preview-head { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; padding: 14px 16px 14px 24px; border-bottom: 1px solid var(--rule); }
+  .preview-head h2 { font: 700 18px/1.2 var(--sans); font-stretch: 85%; margin: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .close { margin-left: auto; width: 44px; height: 44px; border: 0; border-radius: 999px; background: transparent; cursor: pointer; color: var(--ink); display: grid; place-items: center; flex: none; }
+  .close:hover { background: var(--paper); }
+  .preview iframe { width: 100%; height: 100%; border: 0; background: #E8EBEF; }
+  .preview-side { padding: 20px; border-left: 1px solid var(--rule); overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+  .preview-side .btn { width: 100%; justify-content: center; }
+  .preview-side h3 { font: 700 13px/1.3 var(--sans); color: var(--ink-soft); margin: 0 0 6px; }
+  .flags { margin: 0; padding-left: 18px; font: 500 14px/1.45 var(--sans); color: var(--pencil); }
+  .flags.ok { list-style: none; padding: 0; color: var(--ledger); }
+  .flags li { margin-bottom: 6px; }
+  @media (max-width: 760px) {
+    dialog.preview { width: 100vw; height: 100dvh; max-width: none; max-height: none; border-radius: 0; }
+    .preview-inner { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr) auto; }
+    .preview-side { border-left: 0; border-top: 1px solid var(--rule); max-height: 40vh; }
+  }
 
   .skipped { margin: 32px 0 0; padding: 20px; border: 2px dashed var(--rule); border-radius: 10px; font-size: 15px; }
   .skipped h2 { font: 700 18px/1.2 var(--sans); margin: 0 0 8px; }
@@ -269,8 +298,23 @@
         </div>
         {% endif %}
 
+        {% if r.letter %}
+        <div hidden id="{{ r.slug }}-letter">{{ r.letter.greeting }}
+
+{% for para in r.letter.paragraphs %}{{ para }}
+
+{% endfor %}{{ r.letter.closing }}
+{{ r.letter.name }}</div>
+        <div hidden id="{{ r.slug }}-flags">{% if r.letter_flags %}<ul class="flags">{% for f in r.letter_flags %}<li>{{ f }}</li>{% endfor %}</ul>{% else %}<ul class="flags ok"><li>Every number in this letter appears in your CV or the posting. Still read it once before you send it.</li></ul>{% endif %}</div>
+        {% endif %}
+
         <div class="full actions">
           {% if r.posting.source.startswith('http') %}<a class="btn" href="{{ r.posting.source }}" target="_blank" rel="noopener">Open the posting</a>{% else %}<span class="note">From postings/{{ r.posting.source }}</span>{% endif %}
+          {% if r.letter %}
+          <button type="button" class="btn ghost" data-letter="{{ r.slug }}" data-title="{{ r.analysis.company }}, {{ r.analysis.title }}"
+                  data-pdf="{{ r.letter_pdf|urlencode }}" data-docx="{{ r.letter_docx|urlencode }}">Cover letter</button>
+          <span class="letter-status {{ 'bad' if r.letter_flags else 'ok' }}">{% if r.letter_flags %}{{ r.letter_flags|length }} thing{{ 's' if r.letter_flags|length != 1 }} to check{% else %}Numbers check out{% endif %}</span>
+          {% elif r.letter_error %}<span class="note">{{ r.letter_error }}</span>{% endif %}
           {% if r.posting.note %}<span class="note">Your note: {{ r.posting.note }}</span>{% endif %}
         </div>
       </div>
@@ -289,6 +333,24 @@
 
   <footer>Built {{ built_at }} from cv.pdf{% if live %}. Watching the folder; this page refreshes itself.{% endif %}</footer>
 </div>
+
+<dialog class="preview" id="preview" aria-labelledby="preview-title">
+  <div class="preview-inner">
+    <div class="preview-head">
+      <h2 id="preview-title">Cover letter</h2>
+      <button type="button" class="close" id="preview-close" aria-label="Close preview">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg>
+      </button>
+    </div>
+    <iframe id="preview-frame" title="Cover letter PDF preview"></iframe>
+    <div class="preview-side">
+      <a class="btn" id="preview-pdf" download>Download PDF</a>
+      <a class="btn ghost" id="preview-docx" download>Download Word (.docx)</a>
+      <button type="button" class="btn ghost" id="preview-copy">Copy text</button>
+      <div><h3>Check before sending</h3><div id="preview-flags"></div></div>
+    </div>
+  </div>
+</dialog>
 
 <script>
 (() => {
@@ -327,6 +389,29 @@
     rows.forEach(r => { r.open = open; });
     toggleAll.setAttribute('aria-pressed', open);
     toggleAll.textContent = open ? 'Collapse all' : 'Expand all';
+  });
+
+  const preview = document.getElementById('preview');
+  const frame = document.getElementById('preview-frame');
+  const copyBtn = document.getElementById('preview-copy');
+  let letterId = null;
+  document.querySelectorAll('[data-letter]').forEach(btn => btn.addEventListener('click', () => {
+    letterId = btn.dataset.letter;
+    document.getElementById('preview-title').textContent = 'Cover letter: ' + btn.dataset.title;
+    frame.src = btn.dataset.pdf + '#view=FitH';  // load the PDF only when it's opened
+    document.getElementById('preview-pdf').href = btn.dataset.pdf;
+    document.getElementById('preview-docx').href = btn.dataset.docx;
+    document.getElementById('preview-flags').innerHTML = document.getElementById(letterId + '-flags').innerHTML;
+    copyBtn.textContent = 'Copy text';
+    preview.showModal();
+  }));
+  document.getElementById('preview-close').addEventListener('click', () => preview.close());
+  preview.addEventListener('click', e => { if (e.target === preview) preview.close(); });
+  preview.addEventListener('close', () => { frame.src = 'about:blank'; });
+  copyBtn.addEventListener('click', async () => {
+    const text = document.getElementById(letterId + '-letter').textContent.trim();
+    try { await navigator.clipboard.writeText(text); copyBtn.textContent = 'Copied'; }
+    catch { copyBtn.textContent = 'Copy blocked; use the .docx'; }
   });
 
   // Clicking a company on the timeline opens its row.
