@@ -65,20 +65,21 @@ This folder currently sits inside the public `gen-ai-in-business` repo, on branc
 
 ### Visual system
 
-Clean and professional: everything sits square on a plain background. Color comes from a stationery palette of colored cards and marker highlights.
+Clean and professional: everything sits square on a plain background. Color comes from Columbia's palette: Columbia Blue `#B9D9EB` (visualidentity.columbia.edu), the primary blue `#1D4F91` (PMS 7686) and navy. No pastels.
 
 | Token | Light | Dark | Use |
 |---|---|---|---|
-| `--bg` | `#F5F6F2` | `#141821` | The desk |
+| `--bg` | `#F5F6F2` | `#141821` | Page background |
 | `--surface` | `#FFFFFF` | `#1D2230` | Plain cards |
 | `--ink` | `#1B1D22` | `#EEF0F4` | Text |
 | `--ink-soft` | `#545A66` | `#A7AEBB` | Secondary text |
-| `--accent` / `--blue` | `#2340C8` | `#9DB0FF` / `#3E5BE0` | Links, buttons, the blue card |
-| `--yellow` | `#FFE27A` | `#F2D46B` | Sticky notes, highlighter, tape |
-| `--mint` | `#BFE6D3` | `#A9D9C2` | Sticky notes, highlighter |
-| `--coral` | `#FFC2B8` | `#F2B2A7` | Sticky notes, highlighter |
+| `--accent` | `#1D4F91` | `#B9D9EB` | Links and buttons |
+| `--navy` | `#0B2551` | `#16346B` | Columbia Business School card, Interplay label, contact panel, timeline |
+| `--sky` | `#B9D9EB` | `#B9D9EB` | Engineering card, SAP label, active menu item, thin title underlines |
+| `--slate` | `#DCE3EC` | `#C9D3DF` | Volunteering card, Wolters Kluwer label, timeline |
+| `--pale` | `#EEF4F9` | `#1A2638` | VIT card, skill chips |
 
-- Notes are paper: text on yellow, mint and coral is always `--note-ink` (`#1B1D22`), in both themes.
+- Text on sky and slate cards is always `--note-ink` (navy `#0B2551`), in both themes. Text on navy is white.
 - **Only one photo in the hero**: Abhishek's polaroid. Nothing else goes near it.
 - Project cards wear their own repo's identity (NeuroHex servo green, Lumi's pink pixel heart, Argus in its cat mascot's charcoal and coral). Take these from the repo, never invent them.
 - **Nothing is tilted or rotated.** No tape, no stickers poking out of cards, no overlapping photos. Abhishek rejected these as unprofessional.

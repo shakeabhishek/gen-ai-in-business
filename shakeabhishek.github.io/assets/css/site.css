@@ -15,14 +15,15 @@
   --ink: #1B1D22;
   --ink-soft: #545A66;
   --rule: #DCDED8;
-  --accent: #2340C8;
+  --accent: #1D4F91;
 
-  /* Stationery. Notes are paper, so their text is always --note-ink, in both themes. */
-  --yellow: #FFE27A;
-  --mint: #BFE6D3;
-  --coral: #FFC2B8;
-  --blue: #2340C8;
-  --note-ink: #1B1D22;
+  /* Columbia palette: Columbia Blue #B9D9EB (visualidentity.columbia.edu), primary blue #1D4F91 (PMS 7686), navy.
+     Text on sky and slate cards is always --note-ink (navy), in both themes. */
+  --navy: #0B2551;
+  --sky: #B9D9EB;
+  --slate: #DCE3EC;
+  --pale: #EEF4F9;
+  --note-ink: #0B2551;
   --photo-paper: #FDFDFB;
 
   --font: "Geist", ui-sans-serif, system-ui, sans-serif;
@@ -32,7 +33,6 @@
   --gutter: 24px;
   --max: 1200px;
   --header: 64px;
-  --mark: 58%;
   --lift: 0 1px 2px rgba(27, 29, 34, 0.10), 0 14px 30px -16px rgba(27, 29, 34, 0.35);
   color-scheme: light dark;
 }
@@ -44,12 +44,11 @@
     --ink: #EEF0F4;
     --ink-soft: #A7AEBB;
     --rule: #2D3442;
-    --accent: #9DB0FF;
-    --mark: 84%;
-    --yellow: #F2D46B;
-    --mint: #A9D9C2;
-    --coral: #F2B2A7;
-    --blue: #3E5BE0;
+    --accent: #B9D9EB;
+    --navy: #16346B;
+    --sky: #B9D9EB;
+    --slate: #C9D3DF;
+    --pale: #1A2638;
     --photo-paper: #F4F4F1;
     --lift: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 34px -14px rgba(0, 0, 0, 0.7);
   }
@@ -105,10 +104,10 @@ main { overflow-x: clip; }
 .polaroid figcaption { font-weight: 600; font-size: 16px; padding: 12px 4px 16px; letter-spacing: -0.01em; }
 
 .note { color: var(--note-ink); border-radius: var(--paper-radius); box-shadow: var(--lift); }
-.note.yellow { background: var(--yellow); }
-.note.mint { background: var(--mint); }
-.note.coral { background: var(--coral); }
-.note.blue { background: var(--blue); color: #FFFFFF; }
+.note.sky { background: var(--sky); }
+.note.slate { background: var(--slate); }
+.note.pale { background: var(--pale); color: var(--ink); box-shadow: inset 0 0 0 1px var(--rule), var(--lift); }
+.note.navy { background: var(--navy); color: #FFFFFF; }
 
 /* Buttons and links */
 
@@ -121,11 +120,12 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   border: 1.5px solid var(--accent); background: var(--accent); color: #FFFFFF;
   transition: transform 160ms var(--ease-out), background-color 200ms ease, border-color 200ms ease;
 }
-@media (prefers-color-scheme: dark) { .btn { color: #10131B; } }
+@media (prefers-color-scheme: dark) { .btn { color: #0B2551; } }
 .btn.ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
 .btn:active { transform: scale(0.97); }
 .btn svg { width: 18px; height: 18px; flex: none; }
 .note .btn.ghost { color: var(--note-ink); border-color: var(--note-ink); }
+.note.navy .btn.ghost { color: #FFFFFF; border-color: rgba(255, 255, 255, 0.7); }
 
 .link {
   color: var(--accent); font-weight: 600; text-decoration: underline;
@@ -134,12 +134,12 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 }
 .link svg { width: 16px; height: 16px; }
 .note .link, .polaroid .link { color: var(--note-ink); }
-.note.blue .link { color: #FFFFFF; }
+.note.navy .link { color: #FFFFFF; }
 
 @media (hover: hover) and (pointer: fine) {
   .btn:hover { background: color-mix(in srgb, var(--accent) 86%, var(--ink)); }
   .btn.ghost:hover { background: var(--surface); }
-  .note .btn.ghost:hover { background: rgba(255, 255, 255, 0.45); }
+  .note .btn.ghost:hover { background: rgba(255, 255, 255, 0.14); }
   .link:hover { text-decoration-thickness: 2.5px; }
   .sections a:hover { color: var(--ink); }
 }
@@ -164,16 +164,16 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   padding: 0 12px; min-height: 40px; display: inline-flex; align-items: center; border-radius: 999px;
   white-space: nowrap; transition: color 200ms ease, background-color 200ms ease;
 }
-.sections a[aria-current="true"] { color: var(--note-ink); background: var(--yellow); }
+.sections a[aria-current="true"] { color: var(--note-ink); background: var(--sky); }
 .site-header .btn { min-height: 40px; padding: 0 18px; }
 
 /* Hero: the name, and one polaroid. Nothing else near the photo. */
 
 .hero { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 64px; align-items: center; padding: 48px 0 96px; }
 .hero h1 { font-size: clamp(56px, 8.4vw, 112px); letter-spacing: -0.045em; line-height: 0.92; }
-.hero .title { display: inline-block; font-size: 16px; font-weight: 600; margin-top: 26px; padding: 6px 12px; background: var(--mint); color: var(--note-ink); border-radius: var(--paper-radius); }
+.hero .title { display: inline-block; font-size: 16px; font-weight: 600; margin-top: 26px; padding: 6px 12px; background: var(--sky); color: var(--note-ink); border-radius: var(--paper-radius); }
 .hero .lede { font-size: clamp(19px, 1.7vw, 22px); line-height: 1.5; color: var(--ink-soft); max-width: 34ch; margin-top: 18px; }
-.hero .lede strong { color: var(--ink); font-weight: 600; background: linear-gradient(transparent var(--mark), color-mix(in srgb, var(--yellow) 85%, transparent) var(--mark)); }
+.hero .lede strong { color: var(--ink); font-weight: 600; background: linear-gradient(transparent 86%, var(--sky) 86%); }
 .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
 .hero-photo { justify-self: end; width: min(420px, 100%); padding-bottom: 12px; }
 .hero-photo img { aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 28%; }
@@ -183,11 +183,10 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .section { padding: 88px 0; }
 .section[data-follows] { padding-top: 0; }
 .section-title { font-size: clamp(34px, 4.4vw, 56px); }
-/* A highlighter stroke behind the whole title. */
+/* A thin Columbia Blue rule under each title. */
 .section-title span {
-  --hl-c: color-mix(in srgb, var(--hl, var(--yellow)) 80%, transparent);
-  background: linear-gradient(transparent var(--mark), var(--hl-c) var(--mark), var(--hl-c) 94%, transparent 94%);
-  padding: 0 4px; margin: 0 -4px; -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  background: linear-gradient(transparent 88%, var(--sky) 88%, var(--sky) 97%, transparent 97%);
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
 
 /* Timeline: school and work lanes on one axis. Bars link to their cards below. */
@@ -199,16 +198,14 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .lane-name { position: absolute; left: 0; top: 0; font-size: 13px; font-weight: 600; letter-spacing: 0; color: var(--ink-soft); }
 .bar { position: absolute; bottom: 10px; height: 30px; border-radius: 3px; box-shadow: var(--lift); text-decoration: none; color: var(--note-ink);
        transition: translate 200ms var(--ease-out); }
-.bar.yellow { background: var(--yellow); }
-.bar.mint { background: var(--mint); }
-.bar.coral { background: var(--coral); }
-.bar.blue { background: var(--blue); }
+.bar.navy { background: var(--navy); }
+.bar.sky { background: var(--sky); }
+.bar.slate { background: var(--slate); }
 .bar .label { position: absolute; left: 0; bottom: calc(100% + 6px); white-space: nowrap; font-size: 14px; color: var(--ink); background: var(--bg); padding: 0 4px; margin: 0 -4px; }
 .bar .label b { font-weight: 700; }
 .bar.end .label { left: auto; right: 0; text-align: right; }
 /* Wide bars carry their label inside, so neighbouring labels never collide. */
 .bar.inside .label { background: none; margin: 0; position: static; display: flex; align-items: center; gap: 6px; height: 100%; padding: 0 12px; color: var(--note-ink); }
-.bar.blue .label { color: var(--ink); }
 .bar:focus-visible { outline-offset: 4px; }
 @media (hover: hover) and (pointer: fine) { .bar:hover { translate: 0 -3px; } }
 .now { position: absolute; top: 0; bottom: 26px; border-left: 2px solid var(--accent); translate: -1px 0; }
@@ -234,11 +231,11 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 /* Experience: each employer has a sticker color, and its numbers get that color as a marker */
 
 .experience { margin-top: 48px; display: grid; gap: 0; }
-.employer { --c: var(--yellow); display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 32px; padding: 40px 0; border-top: 1.5px dashed var(--ink-soft); }
-.employer.mint { --c: var(--mint); }
-.employer.coral { --c: var(--coral); }
+.employer { --c: var(--navy); --c-ink: #FFFFFF; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 32px; padding: 40px 0; border-top: 1px solid var(--rule); }
+.employer.sky { --c: var(--sky); --c-ink: var(--note-ink); }
+.employer.slate { --c: var(--slate); --c-ink: var(--note-ink); }
 .employer-head { position: sticky; top: calc(var(--header) + 24px); align-self: start; }
-.employer-name { display: inline-block; font-size: 24px; letter-spacing: -0.03em; background: var(--c); color: var(--note-ink); padding: 6px 14px 8px; border-radius: var(--paper-radius); }
+.employer-name { display: inline-block; font-size: 24px; letter-spacing: -0.03em; background: var(--c); color: var(--c-ink); padding: 6px 14px 8px; border-radius: var(--paper-radius); }
 .employer-place { color: var(--ink-soft); font-size: 15px; margin-top: 12px; }
 .role + .role { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--rule); }
 .role-title { font-size: 18px; letter-spacing: -0.015em; }
@@ -246,7 +243,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .results { display: grid; gap: 24px; margin-top: 24px; }
 .result { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 8fr); gap: 24px; align-items: baseline; }
 .figure { font-size: clamp(30px, 3.2vw, 44px); font-weight: 700; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.figure .n { background: linear-gradient(transparent var(--mark), color-mix(in srgb, var(--c) 90%, transparent) var(--mark)); padding: 0 3px; margin: 0 -3px; }
+.figure .n { background: linear-gradient(transparent 86%, var(--sky) 86%); }
 .figure small { display: block; font-size: 13px; font-weight: 500; letter-spacing: 0; color: var(--ink-soft); margin-top: 8px; white-space: normal; }
 .figure .to { color: var(--ink-soft); font-weight: 500; margin: 0 0.1em; }
 .result p { font-size: 16.5px; line-height: 1.55; max-width: 60ch; }
@@ -272,7 +269,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 /* Each project card wears its own repo's look. */
 
 /* NeuroHex: servo green, the label color on its servos. */
-.neurohex .status { background: rgba(112, 190, 74, 0.22); }
+.neurohex .status { background: rgba(46, 125, 50, 0.12); color: #2E6B2F; }
 
 /* Lumi: its pink pixel heart, glowing on the night-mode face screen. */
 .lumi { padding: 18px 18px 28px; border-radius: var(--paper-radius); box-shadow: var(--lift); color: #F3F1FA;
@@ -281,8 +278,8 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
                 background: radial-gradient(circle at 50% 50%, rgba(255, 77, 143, 0.22), transparent 62%), #0A0E1E; }
 .lumi .screen img { width: 38%; image-rendering: pixelated; filter: drop-shadow(0 0 14px rgba(255, 77, 143, 0.55)); }
 .lumi h3 { color: #FFFFFF; }
-.lumi .status { background: rgba(255, 77, 143, 0.2); color: #FFB3CE; }
-.lumi .link { color: #FF8DB6; }
+.lumi .status { background: rgba(255, 77, 143, 0.16); color: #FF6FA5; }
+.lumi .link { color: #FF6FA5; }
 @media (prefers-reduced-motion: no-preference) and (hover: hover) {
   .lumi .screen img { transition: scale 300ms var(--ease-out); }
   .lumi:hover .screen img { scale: 1.08; }
@@ -293,19 +290,16 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .argus h3 { padding-right: 76px; min-height: 64px; display: flex; align-items: center; }
 .argus .mascot { position: absolute; top: 22px; right: 22px; width: 64px; height: 64px; padding: 4px; background: #FFFFFF; border-radius: 999px; }
 .argus .agents { display: flex; flex-wrap: wrap; gap: 6px; }
-.argus .agents li { font-size: 13px; font-weight: 500; padding: 5px 10px; border-radius: 999px; background: rgba(229, 96, 79, 0.22); color: #FFD3CC; }
-.argus .link { color: #FF9C8C; margin-top: auto; }
+.argus .agents li { font-size: 13px; font-weight: 500; padding: 5px 10px; border-radius: 999px; background: rgba(229, 96, 79, 0.18); color: #F08A7B; }
+.argus .link { color: #F08A7B; margin-top: auto; }
 
 /* Skills, certifications, volunteering */
 
 .more { margin-top: 48px; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 24px; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-.chips li { font-size: 15px; font-weight: 500; padding: 8px 14px; border-radius: 999px; color: var(--note-ink); }
-.chips li:nth-child(4n+1) { background: var(--yellow); }
-.chips li:nth-child(4n+2) { background: var(--mint); }
-.chips li:nth-child(4n+3) { background: var(--coral); }
-.chips li:nth-child(4n+4) { background: var(--photo-paper); box-shadow: inset 0 0 0 1.5px var(--note-ink); }
-.note .chips li { background: rgba(255, 255, 255, 0.6); box-shadow: none; }
+.chips li { font-size: 15px; font-weight: 500; padding: 8px 14px; border-radius: 999px; color: var(--ink); background: var(--pale); box-shadow: inset 0 0 0 1px var(--rule); }
+
+.note .chips li { background: rgba(255, 255, 255, 0.6); color: var(--note-ink); box-shadow: none; }
 .plain-card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--lift); }
 .span { grid-column: 1 / -1; }
 .list { display: grid; gap: 12px; margin-top: 6px; }
@@ -318,7 +312,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .contact h2 { font-size: clamp(48px, 7vw, 88px); letter-spacing: -0.045em; line-height: 0.95; }
 .contact p { font-size: 19px; margin: 20px auto 0; max-width: 40ch; opacity: 0.85; }
 .contact .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
-.contact .btn:not(.ghost) { background: var(--note-ink); border-color: var(--note-ink); color: var(--yellow); }
+.contact .btn:not(.ghost) { background: #FFFFFF; border-color: #FFFFFF; color: #0B2551; }
 
 .site-footer { border-top: 1px solid var(--rule); background: var(--bg); }
 .site-footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-block: 20px; color: var(--ink-soft); font-size: 14px; }
