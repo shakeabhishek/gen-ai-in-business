@@ -41,7 +41,6 @@
     <div class="wrap">
       <a class="brand" href="#top">Abhishek Pillai</a>
       <nav class="sections" aria-label="Sections">
-        <a href="#timeline">Timeline</a>
         <a href="#education">Education</a>
         <a href="#experience">Experience</a>
         <a href="#projects">Projects</a>
@@ -74,23 +73,6 @@
       </section>
     </div>
 
-    <section class="section" id="timeline" aria-labelledby="timeline-title">
-      <div class="wrap">
-        <h2 class="section-title" id="timeline-title" data-reveal><span>Timeline</span></h2>
-        <div class="timeline-scroll" data-reveal>
-          <div class="timeline">
-            <span class="now" style="left: 98.48%" aria-hidden="true"><span>Now</span></span>
-            <div class="lane"><h3 class="lane-name">School</h3>
-              <a class="bar slate inside" href="#edu-vit" style="left: 0.00%; width: calc(36.36% - 0.00%)"><span class="label"><b>VIT</b> B.Tech, 2016 - 2020</span></a><a class="bar navy end" href="#edu-cbs" style="left: 81.82%; width: calc(100.00% - 81.82%)"><span class="label"><b>Columbia</b> MBA and MS, 2025 - 2027</span></a>
-            </div>
-            <div class="lane"><h3 class="lane-name">Work</h3>
-              <a class="bar slate" href="#exp-wk" style="left: 36.36%; width: calc(50.00% - 36.36%)"><span class="label"><b>Wolters Kluwer</b> Jan 2020 - Jul 2021</span></a><a class="bar sky inside" href="#exp-sap" style="left: 50.00%; width: calc(86.36% - 50.00%)"><span class="label"><b>SAP</b> Jul 2021 - Jul 2025</span></a><a class="bar navy end" href="#exp-interplay" style="left: 94.70%; width: calc(98.48% - 94.70%)"><span class="label"><b>Interplay</b> Jun 2026 - Present</span></a>
-            </div>
-            <div class="axis" aria-hidden="true"><span class="tick" style="left: 0.00%">2016</span><span class="tick" style="left: 18.18%">2018</span><span class="tick" style="left: 36.36%">2020</span><span class="tick" style="left: 54.55%">2022</span><span class="tick" style="left: 72.73%">2024</span><span class="tick" style="left: 90.91%">2026</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- Section order follows the CV: Education, Experience, then Additional Information. -->
 
@@ -130,17 +112,17 @@
       <div class="wrap">
         <h2 class="section-title" id="experience-title" data-reveal><span>Experience</span></h2>
 
-        <div class="experience">
-          <article class="employer navy" id="exp-interplay" data-reveal>
-            <div class="employer-head">
-              <h3 class="employer-name">Interplay</h3>
-              <p class="employer-place">New York, United States</p>
+        <ol class="experience timeline" aria-label="Work history, most recent first">
+          <li class="stop navy first" id="exp-interplay" data-reveal>
+            <div class="stop-when">
+                <span class="employer-name">Interplay</span>
+                <p class="employer-place">New York, United States</p>
+                <p class="when">Jun 2026 - Present</p>
             </div>
-            <div>
-              <div class="role">
-                <h4 class="role-title">Forward Deployed Engineer (Founding Engineer, IvyOne LLC)</h4>
-                <p class="role-when when">Jun 2026 - Present</p>
-                <ul class="results">
+            <span class="node" aria-hidden="true"></span>
+            <div class="stop-body">
+              <h3 class="role-title">Forward Deployed Engineer (Founding Engineer, IvyOne LLC)</h3>
+              <ul class="results">
                   <li class="result">
                     <span class="figure"><span class="n">5 firms</span><small>80+ agentic workflows each</small></span>
                     <p>Led product and architecture for <strong>Ivy</strong>, a multi-agent AI platform (Temporal, OpenClaw, MCP, 100+ integrations) for family offices, scaling it from single-user to multi-tenant deployment with human-in-the-loop guardrails.</p>
@@ -158,20 +140,18 @@
                     <p>Instrumented LLM-native metrics (latency, token usage, cost-per-request) with granular Langfuse tracing. Built adaptive model routing (LiteLLM) and prompt caching, speeding responses 5.2x.</p>
                   </li>
                 </ul>
-              </div>
             </div>
-          </article>
-
-          <article class="employer sky" id="exp-sap" data-reveal>
-            <div class="employer-head">
-              <h3 class="employer-name">SAP</h3>
-              <p class="employer-place">Bangalore, India</p>
+          </li>
+          <li class="stop sky first" id="exp-sap" data-reveal>
+            <div class="stop-when">
+                <span class="employer-name">SAP</span>
+                <p class="employer-place">Bangalore, India</p>
+                <p class="when">Oct 2024 - Jul 2025</p>
             </div>
-            <div>
-              <div class="role">
-                <h4 class="role-title">Machine Learning Engineer, AI implementations consultant</h4>
-                <p class="role-when when">Oct 2024 - Jul 2025</p>
-                <ul class="results">
+            <span class="node" aria-hidden="true"></span>
+            <div class="stop-body">
+              <h3 class="role-title">Machine Learning Engineer, AI implementations consultant</h3>
+              <ul class="results">
                   <li class="result">
                     <span class="figure"><span class="n">80%+</span><small>faster AI use-case evaluation</small></span>
                     <p>Owned discovery, technical specs, build and productization of <strong>Agent Buddy</strong>, an award-winning, patent-pending multi-agent AI platform (Python, CrewAI, LangGraph) that cut enterprise AI use-case evaluation and implementation time.</p>
@@ -184,11 +164,17 @@
                     <p>Built LLM evaluation and observability infrastructure (regression testing, performance monitoring, experimentation pipelines) for SAP's core AI API framework, and partnered with product managers to define its pricing, billing and usage metering.</p>
                   </li>
                 </ul>
-              </div>
-              <div class="role">
-                <h4 class="role-title">Product Strategy and Operations Fellow</h4>
-                <p class="role-when when">May 2024 - Oct 2024</p>
-                <ul class="results">
+            </div>
+          </li>
+          <li class="stop sky" data-reveal>
+            <div class="stop-when">
+                <span class="employer-repeat">SAP</span>
+                <p class="when">May 2024 - Oct 2024</p>
+            </div>
+            <span class="node" aria-hidden="true"></span>
+            <div class="stop-body">
+              <h3 class="role-title">Product Strategy and Operations Fellow</h3>
+              <ul class="results">
                   <li class="result">
                     <span class="figure"><span class="n">$200K</span><small>new pipeline</small></span>
                     <p>Shaped the <strong>SAP Joule</strong> (AI copilot) product roadmap by leading 10+ enterprise customer discovery interviews and presenting strategic recommendations to the SuccessFactors India C-suite.</p>
@@ -198,11 +184,17 @@
                     <p>Led cross-functional site initiatives including annual budget planning and a Microsoft Dev Box pilot. Defined success metrics, KPIs and a rollout plan projecting 90% faster developer-environment provisioning.</p>
                   </li>
                 </ul>
-              </div>
-              <div class="role">
-                <h4 class="role-title">Software Development Specialist, Product Delivery and Strategy</h4>
-                <p class="role-when when">Jul 2021 - Oct 2024</p>
-                <ul class="results">
+            </div>
+          </li>
+          <li class="stop sky" data-reveal>
+            <div class="stop-when">
+                <span class="employer-repeat">SAP</span>
+                <p class="when">Jul 2021 - Oct 2024</p>
+            </div>
+            <span class="node" aria-hidden="true"></span>
+            <div class="stop-body">
+              <h3 class="role-title">Software Development Specialist, Product Delivery and Strategy</h3>
+              <ul class="results">
                   <li class="result">
                     <span class="figure"><span class="n">$50M+</span><small>strategic payroll platform</small></span>
                     <p>Defined requirements, designed Figma mocks, prioritized features and maintained a living PRD with Product Managers, incorporating end-user feedback through the pilot launch of <strong>SuccessFactors Pay</strong>.</p>
@@ -212,20 +204,18 @@
                     <p>Analyzed historical support-ticket data to identify retroactive payroll as a top user pain point, then led requirements, business case, stakeholder alignment and rollout of the <strong>Payroll Results Viewer</strong>.</p>
                   </li>
                 </ul>
-              </div>
             </div>
-          </article>
-
-          <article class="employer slate" id="exp-wk" data-reveal>
-            <div class="employer-head">
-              <h3 class="employer-name">Wolters Kluwer</h3>
-              <p class="employer-place">Chennai, India</p>
+          </li>
+          <li class="stop slate first" id="exp-wk" data-reveal>
+            <div class="stop-when">
+                <span class="employer-name">Wolters Kluwer</span>
+                <p class="employer-place">Chennai, India</p>
+                <p class="when">Jan 2020 - Jul 2021</p>
             </div>
-            <div>
-              <div class="role">
-                <h4 class="role-title">Associate Enterprise Software Engineer, Platform and Product Enablement</h4>
-                <p class="role-when when">Jan 2020 - Jul 2021</p>
-                <ul class="results">
+            <span class="node" aria-hidden="true"></span>
+            <div class="stop-body">
+              <h3 class="role-title">Associate Enterprise Software Engineer, Platform and Product Enablement</h3>
+              <ul class="results">
                   <li class="result">
                     <span class="figure"><span class="n">$50K+</span><small>cost savings</small></span>
                     <p>Led migration of distributed microservices to Kubernetes, with near-100% system reliability.</p>
@@ -239,10 +229,9 @@
                     <p>Designed and delivered cross-platform integration flows (SAP, Salesforce, ServiceNow, Jira), supporting core product workflow automations for sales and operations teams across Europe.</p>
                   </li>
                 </ul>
-              </div>
             </div>
-          </article>
-        </div>
+          </li>
+        </ol>
       </div>
     </section>
 

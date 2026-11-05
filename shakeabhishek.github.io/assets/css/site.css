@@ -189,31 +189,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
 
-/* Timeline: school and work lanes on one axis. Bars link to their cards below. */
-
-.timeline-scroll { margin-top: 48px; overflow-x: auto; padding: 4px 4px 8px; scrollbar-width: thin; }
-.timeline { position: relative; min-width: 760px; padding: 28px 0 0; }
-.lane { position: relative; height: 92px; border-bottom: 1.5px dashed var(--ink-soft); }
-.lane + .lane { margin-top: 8px; }
-.lane-name { position: absolute; left: 0; top: 0; font-size: 13px; font-weight: 600; letter-spacing: 0; color: var(--ink-soft); }
-.bar { position: absolute; bottom: 10px; height: 30px; border-radius: 3px; box-shadow: var(--lift); text-decoration: none; color: var(--note-ink);
-       transition: translate 200ms var(--ease-out); }
-.bar.navy { background: var(--navy); }
-.bar.sky { background: var(--sky); }
-.bar.slate { background: var(--slate); }
-.bar .label { position: absolute; left: 0; bottom: calc(100% + 6px); white-space: nowrap; font-size: 14px; color: var(--ink); background: var(--bg); padding: 0 4px; margin: 0 -4px; }
-.bar .label b { font-weight: 700; }
-.bar.end .label { left: auto; right: 0; text-align: right; }
-/* Wide bars carry their label inside, so neighbouring labels never collide. */
-.bar.inside .label { background: none; margin: 0; position: static; display: flex; align-items: center; gap: 6px; height: 100%; padding: 0 12px; color: var(--note-ink); }
-.bar:focus-visible { outline-offset: 4px; }
-@media (hover: hover) and (pointer: fine) { .bar:hover { translate: 0 -3px; } }
-.now { position: absolute; top: 0; bottom: 26px; border-left: 2px solid var(--accent); translate: -1px 0; }
-.now span { position: absolute; top: 0; right: 6px; font-size: 12px; font-weight: 700; color: var(--accent); white-space: nowrap; }
-.axis { position: relative; height: 26px; }
-.tick { position: absolute; top: 6px; translate: -50% 0; font-size: 12px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
-.tick:first-child { translate: 0 0; }
-
 /* Education: index cards in three colors */
 
 .education { margin-top: 48px; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); grid-template-rows: auto auto; gap: 24px; }
@@ -228,19 +203,34 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .degree { font-weight: 600; }
 .when { font-variant-numeric: tabular-nums; }
 
-/* Experience: each employer has a sticker color, and its numbers get that color as a marker */
+/* Experience: a vertical timeline. One stop per role: dates and company on the left,
+   a ring on a continuous line in the middle, the role and its results on the right. */
 
-.experience { margin-top: 48px; display: grid; gap: 0; }
-.employer { --c: var(--navy); --c-ink: #FFFFFF; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 32px; padding: 40px 0; border-top: 1px solid var(--rule); }
-.employer.sky { --c: var(--sky); --c-ink: var(--note-ink); }
-.employer.slate { --c: var(--slate); --c-ink: var(--note-ink); }
-.employer-head { position: sticky; top: calc(var(--header) + 24px); align-self: start; }
-.employer-name { display: inline-block; font-size: 24px; letter-spacing: -0.03em; background: var(--c); color: var(--c-ink); padding: 6px 14px 8px; border-radius: var(--paper-radius); }
-.employer-place { color: var(--ink-soft); font-size: 15px; margin-top: 12px; }
-.role + .role { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--rule); }
-.role-title { font-size: 18px; letter-spacing: -0.015em; }
-.role-when { color: var(--ink-soft); font-size: 15px; margin-top: 4px; }
-.results { display: grid; gap: 24px; margin-top: 24px; }
+.timeline { list-style: none; margin: 56px 0 0; padding: 0; }
+.stop { --c: var(--navy); --c-ink: #FFFFFF; display: grid; grid-template-columns: minmax(0, 3fr) 28px minmax(0, 9fr); column-gap: 28px; }
+.stop.sky { --c: var(--sky); --c-ink: var(--note-ink); }
+.stop.slate { --c: var(--slate); --c-ink: var(--note-ink); }
+.stop-when { padding-top: 1px; text-align: right; }
+.stop-when .when { color: var(--ink-soft); font-size: 15px; margin-top: 10px; }
+.stop:not(.first) .stop-when .when { margin-top: 2px; }
+.employer-name { display: inline-block; font-size: 22px; font-weight: 700; letter-spacing: -0.03em; background: var(--c); color: var(--c-ink); padding: 5px 14px 7px; border-radius: var(--paper-radius); }
+.employer-place { color: var(--ink-soft); font-size: 14px; margin-top: 8px; }
+.employer-repeat { display: block; font-weight: 600; font-size: 15px; }
+
+/* The rail: each stop draws its ring and the line down to the next ring, so the line never breaks. */
+.node { position: relative; }
+.node::before {
+  content: ""; position: absolute; z-index: 1; top: 4px; left: 2px; width: 24px; height: 24px;
+  border-radius: 999px; border: 4px solid var(--ink); background: var(--bg);
+}
+.stop.first .node::before { background: var(--c); }
+.node::after { content: ""; position: absolute; top: 28px; bottom: -4px; left: 12px; width: 4px; background: var(--ink); }
+.stop:last-child .node::after { display: none; }
+
+.stop-body { padding-bottom: 56px; }
+.stop:last-child .stop-body { padding-bottom: 0; }
+.role-title { font-size: 20px; letter-spacing: -0.02em; padding-top: 4px; }
+.results { display: grid; gap: 22px; margin-top: 20px; }
 .result { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 8fr); gap: 24px; align-items: baseline; }
 .figure { font-size: clamp(30px, 3.2vw, 44px); font-weight: 700; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .figure .n { background: linear-gradient(transparent 86%, var(--sky) 86%); }
@@ -355,8 +345,10 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
 @media (max-width: 960px) {
   .hero { gap: 40px; }
-  .employer { grid-template-columns: 1fr; gap: 12px; }
-  .employer-head { position: static; }
+  .stop { grid-template-columns: 28px minmax(0, 1fr); column-gap: 18px; }
+  .stop-when { grid-column: 2; grid-row: 1; text-align: left; padding-bottom: 12px; }
+  .node { grid-column: 1; grid-row: 1 / span 2; }
+  .stop-body { grid-column: 2; }
 }
 
 @media (max-width: 767px) {
