@@ -41,6 +41,7 @@
     <div class="wrap">
       <a class="brand" href="#top">Abhishek Pillai</a>
       <nav class="sections" aria-label="Sections">
+        <a href="#timeline">Timeline</a>
         <a href="#education">Education</a>
         <a href="#experience">Experience</a>
         <a href="#projects">Projects</a>
@@ -66,13 +67,30 @@
             <a class="btn ghost" href="#contact">Get in touch</a>
           </div>
         </div>
-        <figure class="polaroid tape hero-photo">
+        <figure class="polaroid hero-photo">
           <img src="assets/img/abhishek.jpg" width="900" height="1200" fetchpriority="high"
                alt="Portrait of Abhishek Pillai in a black suit against a dark grey studio background">
-          <figcaption>Hi, I'm Abhishek</figcaption>
         </figure>
       </section>
     </div>
+
+    <section class="section" id="timeline" aria-labelledby="timeline-title">
+      <div class="wrap">
+        <h2 class="section-title" id="timeline-title" data-reveal style="--hl: var(--coral)"><span>Timeline</span></h2>
+        <div class="timeline-scroll" data-reveal>
+          <div class="timeline">
+            <span class="now" style="left: 98.48%" aria-hidden="true"><span>Now</span></span>
+            <div class="lane"><h3 class="lane-name">School</h3>
+              <a class="bar yellow inside" href="#edu-vit" style="left: 0.00%; width: calc(36.36% - 0.00%)"><span class="label"><b>VIT</b> B.Tech, 2016 - 2020</span></a><a class="bar blue end" href="#edu-cbs" style="left: 81.82%; width: calc(100.00% - 81.82%)"><span class="label"><b>Columbia</b> MBA and MS, 2025 - 2027</span></a>
+            </div>
+            <div class="lane"><h3 class="lane-name">Work</h3>
+              <a class="bar coral" href="#exp-wk" style="left: 36.36%; width: calc(50.00% - 36.36%)"><span class="label"><b>Wolters Kluwer</b> Jan 2020 - Jul 2021</span></a><a class="bar mint inside" href="#exp-sap" style="left: 50.00%; width: calc(86.36% - 50.00%)"><span class="label"><b>SAP</b> Jul 2021 - Jul 2025</span></a><a class="bar yellow end" href="#exp-interplay" style="left: 94.70%; width: calc(98.48% - 94.70%)"><span class="label"><b>Interplay</b> Jun 2026 - Present</span></a>
+            </div>
+            <div class="axis" aria-hidden="true"><span class="tick" style="left: 0.00%">2016</span><span class="tick" style="left: 18.18%">2018</span><span class="tick" style="left: 36.36%">2020</span><span class="tick" style="left: 54.55%">2022</span><span class="tick" style="left: 72.73%">2024</span><span class="tick" style="left: 90.91%">2026</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Section order follows the CV: Education, Experience, then Additional Information. -->
 
@@ -80,7 +98,7 @@
       <div class="wrap">
         <h2 class="section-title" id="education-title" data-reveal style="--hl: var(--mint)"><span>Education</span></h2>
         <div class="education">
-          <article class="card note blue school wide tilt-l" data-reveal>
+          <article class="card note blue school wide" id="edu-cbs" data-reveal>
             <p class="meta">New York, United States</p>
             <h3>Columbia Business School</h3>
             <p class="degree">MBA, Columbia Fellow, Enterprises and Strategy</p>
@@ -91,13 +109,13 @@
               <li>Consultant, Small Business Consulting Program</li>
             </ul>
           </article>
-          <article class="card note mint school tilt-r" data-reveal>
+          <article class="card note mint school" data-reveal>
             <p class="meta">New York, United States</p>
             <h3>Columbia School of Engineering and Applied Science</h3>
             <p class="degree">MS Engineering, Machine Learning, Artificial Intelligence, and Robotics</p>
             <p class="meta when">2025 - 2027</p>
           </article>
-          <article class="card note yellow school" data-reveal>
+          <article class="card note yellow school" id="edu-vit" data-reveal>
             <p class="meta">Chennai, India</p>
             <h3>Vellore Institute of Technology</h3>
             <p class="degree">Bachelor of Technology, Computer Science and Engineering</p>
@@ -113,7 +131,7 @@
         <h2 class="section-title" id="experience-title" data-reveal style="--hl: var(--yellow)"><span>Experience</span></h2>
 
         <div class="experience">
-          <article class="employer" data-reveal>
+          <article class="employer" id="exp-interplay" data-reveal>
             <div class="employer-head">
               <h3 class="employer-name">Interplay</h3>
               <p class="employer-place">New York, United States</p>
@@ -144,7 +162,7 @@
             </div>
           </article>
 
-          <article class="employer mint" data-reveal>
+          <article class="employer mint" id="exp-sap" data-reveal>
             <div class="employer-head">
               <h3 class="employer-name">SAP</h3>
               <p class="employer-place">Bangalore, India</p>
@@ -198,7 +216,7 @@
             </div>
           </article>
 
-          <article class="employer coral" data-reveal>
+          <article class="employer coral" id="exp-wk" data-reveal>
             <div class="employer-head">
               <h3 class="employer-name">Wolters Kluwer</h3>
               <p class="employer-place">Chennai, India</p>
@@ -234,8 +252,7 @@
       <div class="wrap">
         <h2 class="section-title" id="projects-title" data-reveal style="--hl: var(--coral)"><span>Recent projects</span></h2>
         <div class="projects">
-          <article class="project feature polaroid tape tilt-l neurohex" data-reveal>
-            <figure class="polaroid peek" aria-hidden="true"><img src="assets/img/neurohex-top.jpg" width="560" height="560" alt="" loading="lazy" decoding="async"></figure>
+          <article class="project feature polaroid neurohex" data-reveal>
             <img src="assets/img/neurohex.jpg" width="1400" height="875" loading="lazy" decoding="async"
                  alt="The NeuroHex robot, a black six-legged hexapod with green servo motors, standing on a wooden table">
             <div class="body">
@@ -250,9 +267,9 @@
             </div>
           </article>
 
-          <article class="project lumi tilt-r" data-reveal>
-            <div class="screen" role="img" aria-label="Lumi's face screen: a pixel-art cat asleep under the stars"></div>
-            <h3><img class="heart" src="assets/img/lumi-heart.svg" width="28" height="23" alt="">Lumi</h3>
+          <article class="project lumi" data-reveal>
+            <div class="screen"><img src="assets/img/lumi-heart.svg" width="280" height="229" alt="Lumi's logo, a pink pixel-art heart"></div>
+            <h3>Lumi</h3>
             <p class="status">Pre-launch, V1 hardware in build</p>
             <p>A desk companion that runs a local LLM (Qwen2.5 7B) on a Raspberry Pi 5 with a Hailo AI HAT, so nothing leaves the device by default. You talk to it, it talks back, a wave wakes it, and an animated face shows what it's doing. Cloud models are optional, per turn.</p>
             <p class="stack">Python, FastAPI, Ollama, Whisper, Piper</p>
@@ -262,7 +279,7 @@
             </a>
           </article>
 
-          <article class="project argus tilt-l" data-reveal>
+          <article class="project argus" data-reveal>
             <h3>Argus-AI</h3>
             <img class="mascot" src="assets/img/argus-cat.png" width="240" height="240" alt="Argus, the line-art cat mascot of Argus-AI" loading="lazy" decoding="async">
             <p>My personal multi-agent control center, run from Slack. A state graph routes each request to a specialist agent (research scout, coursework, career outreach, calendar), keeps memory in Qdrant, and pauses for my approval in Slack before anything irreversible, like sending an email.</p>
@@ -290,7 +307,7 @@
               <li>OpenBao</li><li>LiteLLM</li><li>Kubernetes</li><li>AWS</li><li>CI/CD</li>
             </ul>
           </article>
-          <article class="card note mint tilt-r" data-reveal>
+          <article class="card note mint" data-reveal>
             <h3>Certifications</h3>
             <ul class="chips">
               <li>Product Management</li><li>AWS Cloud Practitioner</li><li>Microservices</li><li>Docker/Kubernetes</li>
@@ -309,7 +326,7 @@
 
     <section class="contact" id="contact" aria-labelledby="contact-title">
       <div class="wrap" data-reveal>
-        <div class="note yellow tape">
+        <div class="note yellow">
         <h2 id="contact-title">Get in touch</h2>
         <p>The fastest way to reach me is a message on LinkedIn.</p>
         <div class="actions">

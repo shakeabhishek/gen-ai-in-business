@@ -1,4 +1,4 @@
-/* Abhishek Pillai portfolio. Desk theme: polaroids, sticky notes, tape.
+/* Abhishek Pillai portfolio. Clean layout with a stationery color palette.
    Tokens and rules are documented in AGENTS.md section 5. */
 
 @font-face {
@@ -16,7 +16,6 @@
   --ink-soft: #545A66;
   --rule: #DCDED8;
   --accent: #2340C8;
-  --dot: rgba(27, 29, 34, 0.11);
 
   /* Stationery. Notes are paper, so their text is always --note-ink, in both themes. */
   --yellow: #FFE27A;
@@ -24,7 +23,6 @@
   --coral: #FFC2B8;
   --blue: #2340C8;
   --note-ink: #1B1D22;
-  --tape: rgba(255, 226, 122, 0.72);
   --photo-paper: #FDFDFB;
 
   --font: "Geist", ui-sans-serif, system-ui, sans-serif;
@@ -47,13 +45,11 @@
     --ink-soft: #A7AEBB;
     --rule: #2D3442;
     --accent: #9DB0FF;
-    --dot: rgba(238, 240, 244, 0.08);
     --mark: 84%;
     --yellow: #F2D46B;
     --mint: #A9D9C2;
     --coral: #F2B2A7;
     --blue: #3E5BE0;
-    --tape: rgba(242, 212, 107, 0.6);
     --photo-paper: #F4F4F1;
     --lift: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 34px -14px rgba(0, 0, 0, 0.7);
   }
@@ -70,10 +66,7 @@ body {
   font: 400 17px/1.6 var(--font);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  /* The desk: a faint dot grid. */
-  background:
-    radial-gradient(circle at 1px 1px, var(--dot) 1.2px, transparent 0) 0 0 / 24px 24px,
-    var(--bg);
+  background: var(--bg);
 }
 
 img { display: block; max-width: 100%; height: auto; }
@@ -103,16 +96,6 @@ main { overflow-x: clip; }
 }
 
 /* Stationery building blocks */
-
-.tape { position: relative; }
-.tape::before {
-  content: ""; position: absolute; z-index: 2; top: -13px; left: 50%;
-  width: 104px; height: 26px; transform: translateX(-50%) rotate(-3deg);
-  background: var(--tape); border-radius: 2px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-}
-.tilt-l { rotate: -1.4deg; }
-.tilt-r { rotate: 1.2deg; }
 
 .polaroid {
   background: var(--photo-paper); color: var(--note-ink);
@@ -159,9 +142,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   .note .btn.ghost:hover { background: rgba(255, 255, 255, 0.45); }
   .link:hover { text-decoration-thickness: 2.5px; }
   .sections a:hover { color: var(--ink); }
-  /* Polaroids straighten up when you point at them. */
-  .polaroid { transition: rotate 300ms var(--ease-out), translate 300ms var(--ease-out); }
-  .polaroid:hover { rotate: 0deg; translate: 0 -4px; }
 }
 
 /* Sticky header with section menu. The current section is marked by site.js. */
@@ -191,11 +171,11 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
 .hero { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 64px; align-items: center; padding: 48px 0 96px; }
 .hero h1 { font-size: clamp(56px, 8.4vw, 112px); letter-spacing: -0.045em; line-height: 0.92; }
-.hero .title { display: inline-block; font-size: 16px; font-weight: 600; margin-top: 26px; padding: 6px 12px; background: var(--mint); color: var(--note-ink); border-radius: var(--paper-radius); rotate: -1deg; }
+.hero .title { display: inline-block; font-size: 16px; font-weight: 600; margin-top: 26px; padding: 6px 12px; background: var(--mint); color: var(--note-ink); border-radius: var(--paper-radius); }
 .hero .lede { font-size: clamp(19px, 1.7vw, 22px); line-height: 1.5; color: var(--ink-soft); max-width: 34ch; margin-top: 18px; }
 .hero .lede strong { color: var(--ink); font-weight: 600; background: linear-gradient(transparent var(--mark), color-mix(in srgb, var(--yellow) 85%, transparent) var(--mark)); }
 .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
-.hero-photo { justify-self: center; width: min(400px, 100%); rotate: 3deg; }
+.hero-photo { justify-self: end; width: min(420px, 100%); padding-bottom: 12px; }
 .hero-photo img { aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 28%; }
 
 /* Section rhythm */
@@ -209,6 +189,33 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   background: linear-gradient(transparent var(--mark), var(--hl-c) var(--mark), var(--hl-c) 94%, transparent 94%);
   padding: 0 4px; margin: 0 -4px; -webkit-box-decoration-break: clone; box-decoration-break: clone;
 }
+
+/* Timeline: school and work lanes on one axis. Bars link to their cards below. */
+
+.timeline-scroll { margin-top: 48px; overflow-x: auto; padding: 4px 4px 8px; scrollbar-width: thin; }
+.timeline { position: relative; min-width: 760px; padding: 28px 0 0; }
+.lane { position: relative; height: 92px; border-bottom: 1.5px dashed var(--ink-soft); }
+.lane + .lane { margin-top: 8px; }
+.lane-name { position: absolute; left: 0; top: 0; font-size: 13px; font-weight: 600; letter-spacing: 0; color: var(--ink-soft); }
+.bar { position: absolute; bottom: 10px; height: 30px; border-radius: 3px; box-shadow: var(--lift); text-decoration: none; color: var(--note-ink);
+       transition: translate 200ms var(--ease-out); }
+.bar.yellow { background: var(--yellow); }
+.bar.mint { background: var(--mint); }
+.bar.coral { background: var(--coral); }
+.bar.blue { background: var(--blue); }
+.bar .label { position: absolute; left: 0; bottom: calc(100% + 6px); white-space: nowrap; font-size: 14px; color: var(--ink); background: var(--bg); padding: 0 4px; margin: 0 -4px; }
+.bar .label b { font-weight: 700; }
+.bar.end .label { left: auto; right: 0; text-align: right; }
+/* Wide bars carry their label inside, so neighbouring labels never collide. */
+.bar.inside .label { background: none; margin: 0; position: static; display: flex; align-items: center; gap: 6px; height: 100%; padding: 0 12px; color: var(--note-ink); }
+.bar.blue .label { color: var(--ink); }
+.bar:focus-visible { outline-offset: 4px; }
+@media (hover: hover) and (pointer: fine) { .bar:hover { translate: 0 -3px; } }
+.now { position: absolute; top: 0; bottom: 26px; border-left: 2px solid var(--accent); translate: -1px 0; }
+.now span { position: absolute; top: 0; right: 6px; font-size: 12px; font-weight: 700; color: var(--accent); white-space: nowrap; }
+.axis { position: relative; height: 26px; }
+.tick { position: absolute; top: 6px; translate: -50% 0; font-size: 12px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.tick:first-child { translate: 0 0; }
 
 /* Education: index cards in three colors */
 
@@ -231,7 +238,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .employer.mint { --c: var(--mint); }
 .employer.coral { --c: var(--coral); }
 .employer-head { position: sticky; top: calc(var(--header) + 24px); align-self: start; }
-.employer-name { display: inline-block; font-size: 24px; letter-spacing: -0.03em; background: var(--c); color: var(--note-ink); padding: 6px 14px 8px; border-radius: var(--paper-radius); rotate: -2deg; box-shadow: var(--lift); }
+.employer-name { display: inline-block; font-size: 24px; letter-spacing: -0.03em; background: var(--c); color: var(--note-ink); padding: 6px 14px 8px; border-radius: var(--paper-radius); }
 .employer-place { color: var(--ink-soft); font-size: 15px; margin-top: 12px; }
 .role + .role { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--rule); }
 .role-title { font-size: 18px; letter-spacing: -0.015em; }
@@ -264,33 +271,27 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
 /* Each project card wears its own repo's look. */
 
-/* NeuroHex: servo-green tape (the label color on its servos) and a second photo tucked behind. */
-.neurohex { isolation: isolate; position: relative; z-index: 1; }
-.neurohex.tape::before { background: rgba(112, 190, 74, 0.75); }
+/* NeuroHex: servo green, the label color on its servos. */
 .neurohex .status { background: rgba(112, 190, 74, 0.22); }
-.neurohex .peek { position: absolute; z-index: -1; top: -30px; right: -22px; width: 36%; padding: 8px 8px 28px; rotate: 9deg; }
-.neurohex .peek img { aspect-ratio: 1; object-fit: cover; }
 
-/* Lumi: its night-mode face screen, pink pixel heart, and the sleeping cat sprite (24 frames, 6 fps). */
+/* Lumi: its pink pixel heart, glowing on the night-mode face screen. */
 .lumi { padding: 18px 18px 28px; border-radius: var(--paper-radius); box-shadow: var(--lift); color: #F3F1FA;
         background: linear-gradient(180deg, #1C2340 0%, #0A0E1E 100%); }
-.lumi .screen { aspect-ratio: 288 / 166; border-radius: 10px; border: 3px solid #2B3354; margin-bottom: 8px;
-                background: url("../img/lumi-cat.png") 0 0 / 2400% 100% no-repeat; image-rendering: pixelated; }
-.lumi h3 { display: flex; align-items: center; gap: 10px; color: #FFFFFF; }
-.lumi .heart { width: 28px; height: auto; image-rendering: pixelated; }
+.lumi .screen { display: grid; place-items: center; aspect-ratio: 16 / 9; border-radius: 10px; border: 3px solid #2B3354; margin-bottom: 8px;
+                background: radial-gradient(circle at 50% 50%, rgba(255, 77, 143, 0.22), transparent 62%), #0A0E1E; }
+.lumi .screen img { width: 38%; image-rendering: pixelated; filter: drop-shadow(0 0 14px rgba(255, 77, 143, 0.55)); }
+.lumi h3 { color: #FFFFFF; }
 .lumi .status { background: rgba(255, 77, 143, 0.2); color: #FFB3CE; }
 .lumi .link { color: #FF8DB6; }
-/* The cat only stirs while you're looking at the card. */
-@media (prefers-reduced-motion: no-preference) {
-  .lumi:hover .screen, .lumi:focus-within .screen { animation: cat 4s steps(23) infinite; }
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .lumi .screen img { transition: scale 300ms var(--ease-out); }
+  .lumi:hover .screen img { scale: 1.08; }
 }
-@keyframes cat { to { background-position: 100% 0; } }
 
-/* Argus: named for the cat in its logo. Charcoal and coral, the mascot's own colors, with Argus on a sticker. */
+/* Argus: named for the cat in its logo. Charcoal and coral, the mascot's own colors. */
 .argus { position: relative; padding: 28px; border-radius: var(--paper-radius); box-shadow: var(--lift); background: #2E3238; color: #F4F2F0; }
-.argus h3, .argus > p:first-of-type { padding-right: 84px; }
-.argus .mascot { position: absolute; top: -26px; right: -14px; width: 104px; height: 104px; padding: 6px;
-                 background: #FFFFFF; border-radius: 999px; rotate: 8deg; box-shadow: var(--lift); }
+.argus h3 { padding-right: 76px; min-height: 64px; display: flex; align-items: center; }
+.argus .mascot { position: absolute; top: 22px; right: 22px; width: 64px; height: 64px; padding: 4px; background: #FFFFFF; border-radius: 999px; }
 .argus .agents { display: flex; flex-wrap: wrap; gap: 6px; }
 .argus .agents li { font-size: 13px; font-weight: 500; padding: 5px 10px; border-radius: 999px; background: rgba(229, 96, 79, 0.22); color: #FFD3CC; }
 .argus .link { color: #FF9C8C; margin-top: auto; }
@@ -313,7 +314,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 /* Contact: one big sticky note */
 
 .contact { padding: 72px 0 120px; }
-.contact .note { max-width: 760px; margin: 0 auto; padding: 64px 40px 56px; text-align: center; rotate: -1.2deg; }
+.contact .note { max-width: 760px; margin: 0 auto; padding: 64px 40px 56px; text-align: center; }
 .contact h2 { font-size: clamp(48px, 7vw, 88px); letter-spacing: -0.045em; line-height: 0.95; }
 .contact p { font-size: 19px; margin: 20px auto 0; max-width: 40ch; opacity: 0.85; }
 .contact .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
@@ -322,14 +323,14 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .site-footer { border-top: 1px solid var(--rule); background: var(--bg); }
 .site-footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-block: 20px; color: var(--ink-soft); font-size: 14px; }
 
-/* Motion: the polaroid drops onto the desk once; sections rise in as they scroll into view. */
+/* Motion: the hero fades up once; sections rise in as they scroll into view. */
 
 @media (prefers-reduced-motion: no-preference) {
   .hero-copy > * { animation: rise 700ms var(--ease-out) both; }
   .hero-copy > :nth-child(2) { animation-delay: 50ms; }
   .hero-copy > :nth-child(3) { animation-delay: 100ms; }
   .hero-copy > :nth-child(4) { animation-delay: 150ms; }
-  .hero-photo { animation: drop 900ms var(--ease-out) 200ms both; }
+  .hero-photo { animation: drop 700ms var(--ease-out) 150ms both; }
 }
 
 /* Pure CSS, so nothing waits on a script; browsers without scroll-driven animations just show the content. */
@@ -348,7 +349,7 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   to { opacity: 1; transform: none; }
 }
 @keyframes drop {
-  from { opacity: 0; transform: translateY(-24px) rotate(-6deg) scale(1.04); }
+  from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: none; }
 }
 

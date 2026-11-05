@@ -42,7 +42,6 @@ Stop and ask before doing any of these. Approval for one does not carry over to 
 - If two sources disagree, use neither and ask.
 - When a role or project changes, update the site from the source, not from memory.
 - **The home page mirrors the CV**: every section, role and bullet, in the CV's order (Education, Experience, then Additional Information: projects, skills, certifications, volunteering). The only things left out are the items in section 1.
-- **Concept pages** in `concepts/` were design explorations. They are gitignored and never published.
 
 ## 4. Git safety
 
@@ -66,7 +65,7 @@ This folder currently sits inside the public `gen-ai-in-business` repo, on branc
 
 ### Visual system
 
-The theme is a desk: a dot-grid background, polaroids, sticky notes and tape. Color comes from stationery.
+Clean and professional: everything sits square on a plain background. Color comes from a stationery palette of colored cards and marker highlights.
 
 | Token | Light | Dark | Use |
 |---|---|---|---|
@@ -81,11 +80,11 @@ The theme is a desk: a dot-grid background, polaroids, sticky notes and tape. Co
 
 - Notes are paper: text on yellow, mint and coral is always `--note-ink` (`#1B1D22`), in both themes.
 - **Only one photo in the hero**: Abhishek's polaroid. Nothing else goes near it.
-- Project cards wear their own repo's identity (NeuroHex servo green, Lumi's pink pixel heart and sleeping cat, Argus in its cat mascot's charcoal and coral). Take these from the repo, never invent them.
-- Tilts stay small: 3deg at most on the hero photo, 2deg elsewhere.
+- Project cards wear their own repo's identity (NeuroHex servo green, Lumi's pink pixel heart, Argus in its cat mascot's charcoal and coral). Take these from the repo, never invent them.
+- **Nothing is tilted or rotated.** No tape, no stickers poking out of cards, no overlapping photos. Abhishek rejected these as unprofessional.
 
 - **Type:** Geist only (self-hosted in `assets/fonts/`). Weights 400, 500, 600, 700. No second family, no monospace labels.
-- **Radius:** paper (polaroids, notes, cards) is 4px, plain cards 14px, buttons and chips are full pills. Nothing else.
+- **Radius:** colored cards and the photo frame are 4px, plain cards 14px, buttons and chips are full pills. Nothing else.
 - **Theme:** follows the visitor's system setting (light or dark). Every section uses the same theme.
 - **Layout:** content max width 1200px, 24px side gutters (16px on phones). Every multi-column layout collapses to one column under 768px. No horizontal page scroll at 360px.
 - **Icons:** Phosphor (regular weight) only, inlined as SVG. No emoji.

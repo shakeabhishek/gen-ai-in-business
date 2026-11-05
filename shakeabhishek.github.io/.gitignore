@@ -5,5 +5,3 @@ my-photo.jpeg
 # Originals with metadata; the site uses cleaned copies.
 assets/img/argus-ai.png
 .DS_Store
-# Design explorations, kept locally for reference. Not published.
-concepts/
