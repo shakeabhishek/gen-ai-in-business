@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    rect { fill: #16181B; }
+    text { fill: #F2F3F1; }
+    @media (prefers-color-scheme: dark) { rect { fill: #ECEDEF; } text { fill: #111316; } }
+  </style>
+  <rect width="64" height="64" rx="14"/>
+  <text x="32" y="43" text-anchor="middle" font-family="Geist, system-ui, sans-serif" font-size="28" font-weight="700" letter-spacing="-1">AP</text>
+</svg>
