@@ -278,13 +278,13 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   .lumi:hover .screen img { scale: 1.08; }
 }
 
-/* Argus: named for the cat in its logo. Charcoal and coral, the mascot's own colors. */
-.argus { position: relative; padding: 28px; border-radius: var(--paper-radius); box-shadow: var(--lift); background: #2E3238; color: #F4F2F0; }
+/* Argus: named for the cat in its logo. Navy card in the site palette, with Argus on a white circle. */
+.argus { position: relative; padding: 28px; border-radius: var(--paper-radius); box-shadow: var(--lift); background: var(--navy); color: #FFFFFF; }
 .argus h3 { padding-right: 76px; min-height: 64px; display: flex; align-items: center; }
 .argus .mascot { position: absolute; top: 22px; right: 22px; width: 64px; height: 64px; padding: 4px; background: #FFFFFF; border-radius: 999px; }
 .argus .agents { display: flex; flex-wrap: wrap; gap: 6px; }
-.argus .agents li { font-size: 13px; font-weight: 500; padding: 5px 10px; border-radius: 999px; background: rgba(229, 96, 79, 0.18); color: #F08A7B; }
-.argus .link { color: #F08A7B; margin-top: auto; }
+.argus .agents li { font-size: 13px; font-weight: 500; padding: 5px 10px; border-radius: 999px; background: rgba(185, 217, 235, 0.16); color: var(--sky); }
+.argus .link { color: var(--sky); margin-top: auto; }
 
 /* Skills, certifications, volunteering */
 

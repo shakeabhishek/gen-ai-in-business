@@ -81,7 +81,7 @@ Clean and professional: everything sits square on a plain background. Color come
 
 - Text on sky and slate cards is always `--note-ink` (navy `#0B2551`), in both themes. Text on navy is white.
 - **Only one photo in the hero**: Abhishek's polaroid. Nothing else goes near it.
-- Project cards wear their own repo's identity (NeuroHex servo green, Lumi's pink pixel heart, Argus in its cat mascot's charcoal and coral). Take these from the repo, never invent them.
+- Project cards wear their own repo's identity (NeuroHex servo green, Lumi's pink pixel heart, Argus's cat mascot on a navy card). Take these from the repo, never invent them.
 - **Nothing is tilted or rotated.** No tape, no stickers poking out of cards, no overlapping photos. Abhishek rejected these as unprofessional.
 
 - **Type:** Geist only (self-hosted in `assets/fonts/`). Weights 400, 500, 600, 700. No second family, no monospace labels.
