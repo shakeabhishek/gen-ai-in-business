@@ -50,6 +50,7 @@ This folder currently sits inside the public `gen-ai-in-business` repo, on branc
 - Never run `git add -A` or `git add .` from the repo root without reading `git status` first.
 - `.gitignore` in this folder keeps the CV PDF and original photo out. Check `git check-ignore` before any commit that touches this folder.
 - Before any push, scan the diff for a phone number, an email address, and any immigration or visa terms.
+- Before any publish, run `python3 scripts/stamp_assets.py`. It versions the CSS and JS links so visitors never get a new page with a cached old stylesheet (GitHub Pages caches files for 10 minutes).
 
 ## 5. Style
 
