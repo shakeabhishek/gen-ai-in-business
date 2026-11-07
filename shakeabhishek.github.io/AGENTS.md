@@ -97,6 +97,7 @@ Clean and professional: everything sits square on a plain background. Color come
 - A looping animation (like the Connectome concept's network) needs a visible pause button, must stop when off screen or in a hidden tab, and must be a still frame under reduced motion.
 - Animate only `transform` and `opacity`. UI transitions 150 to 250ms with `cubic-bezier(0.23, 1, 0.32, 1)`. Buttons scale to 0.97 on press.
 - Hover effects only under `@media (hover: hover) and (pointer: fine)`.
+- **Phones scroll plain content.** Scroll-driven reveals and the blurred header only run on desktops with a mouse. Never call `scrollIntoView()` from scroll-tracking code: on phones it also scrolls the page and makes it jump. Move inner scrollers with `element.scrollTo()` instead. Test with real-time mobile emulation (`/tmp`-style CDP script: 390px, touch, coarse pointer) and expect 0 jumps.
 - Under `prefers-reduced-motion: reduce`, nothing moves; content is simply visible.
 
 ### Accessibility and performance
