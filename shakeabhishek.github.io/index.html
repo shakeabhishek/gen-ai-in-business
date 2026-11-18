@@ -6,8 +6,7 @@
   <title>Abhishek Pillai | Forward deployed engineer</title>
   <meta name="description" content="Abhishek Pillai builds multi-agent AI systems and deploys them into real companies. Founding engineer at Interplay, MBA and MS at Columbia.">
   <link rel="canonical" href="https://shakeabhishek.github.io/">
-  <meta name="theme-color" content="#F2F3F1" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#111316" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#0A0F1C">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://shakeabhishek.github.io/">
@@ -18,7 +17,7 @@
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/geist-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=4eeb9fbe76">
+  <link rel="stylesheet" href="assets/css/site.css?v=b466e438f8">
 
   <script type="application/ld+json">
   {
@@ -41,6 +40,7 @@
     <div class="wrap">
       <a class="brand" href="#top">Abhishek Pillai</a>
       <nav class="sections" aria-label="Sections">
+        <a href="#about">About</a>
         <a href="#education">Education</a>
         <a href="#experience">Experience</a>
         <a href="#projects">Projects</a>
@@ -52,6 +52,7 @@
   </header>
 
   <main id="main">
+    <div class="hero-band">
     <div class="wrap">
       <section class="hero" id="top" aria-labelledby="hero-title">
         <div class="hero-copy">
@@ -66,12 +67,43 @@
             <a class="btn ghost" href="#contact">Get in touch</a>
           </div>
         </div>
-        <figure class="polaroid hero-photo">
-          <img src="assets/img/abhishek.jpg" width="900" height="1200" fetchpriority="high"
-               alt="Portrait of Abhishek Pillai in a black suit against a dark grey studio background">
+        <figure class="hero-photo">
+          <span class="dither" data-dither>
+            <img src="assets/img/abhishek.jpg" width="900" height="1200" fetchpriority="high"
+                 alt="Portrait of Abhishek Pillai in a black suit against a dark grey studio background">
+          </span>
         </figure>
       </section>
     </div>
+    </div>
+
+    <div class="marquee" role="region" aria-label="Tools I work with">
+      <div class="marquee-track">
+        <ul><li>Python</li><li>Temporal</li><li>MCP</li><li>Qdrant</li><li>LiteLLM</li><li>Langfuse</li><li>LangGraph</li><li>CrewAI</li><li>Claude</li><li>Kubernetes</li><li>Docker</li><li>AWS</li><li>GCP</li><li>OpenBao</li><li>GitHub Actions</li><li>Java</li><li>Figma</li></ul>
+        <ul aria-hidden="true"><li>Python</li><li>Temporal</li><li>MCP</li><li>Qdrant</li><li>LiteLLM</li><li>Langfuse</li><li>LangGraph</li><li>CrewAI</li><li>Claude</li><li>Kubernetes</li><li>Docker</li><li>AWS</li><li>GCP</li><li>OpenBao</li><li>GitHub Actions</li><li>Java</li><li>Figma</li></ul>
+      </div>
+    </div>
+
+    <section class="section about" id="about" aria-labelledby="about-title">
+      <div class="wrap">
+        <h2 class="section-title" id="about-title" data-reveal><span>About</span></h2>
+        <div class="flow" data-flow>
+          <div class="flow-source">
+            <p>I started in enterprise software at Wolters Kluwer in Chennai, moving distributed microservices onto Kubernetes and building automated error reporting for more than 400 enterprise APIs.</p>
+            <p>At SAP in Bangalore I spent four years between engineering and product. I wrote requirements and Figma mocks for SuccessFactors Pay, a $50M+ payroll platform, led the customer discovery interviews that shaped the roadmap for SAP Joule, and then built Agent Buddy, an award-winning, patent-pending multi-agent platform that cut enterprise AI use-case evaluation time by more than 80%.</p>
+            <p>Today I'm a founding engineer at Interplay in New York. I lead product and architecture for Ivy, a multi-agent AI platform for family offices that now runs at five firms, with retrieval over 100K+ records and evaluation harnesses that gate releases.</p>
+            <p>I'm also doing an MBA at Columbia Business School and an MS in machine learning, AI and robotics at Columbia Engineering, at the same time. Outside class I build things you can touch: a six-legged robot that walks on a servo driver I wrote, a desk companion that runs its own language model, and a team of agents that runs my daily work from Slack.</p>
+          </div>
+          <div class="flow-lines" aria-hidden="true"></div>
+          <button type="button" class="orb orb-photo" data-x="0.5" data-y="0.42" data-mx="0.74" data-my="0.36" aria-label="Portrait. Drag it, or press the arrow keys, to move it through the text.">
+            <span class="dither" data-dither><img src="assets/img/abhishek.jpg" width="900" height="1200" alt="" loading="lazy" decoding="async"></span>
+          </button>
+          <button type="button" class="orb orb-sky" data-x="0.14" data-y="0.78" data-mx="0.16" data-my="0.74" aria-label="Blue circle. Drag it, or press the arrow keys, to move it through the text."></button>
+          <button type="button" class="orb orb-ring" data-x="0.86" data-y="0.16" data-mx="0.86" data-my="0.08" aria-label="Ring. Drag it, or press the arrow keys, to move it through the text."></button>
+        </div>
+        <p class="flow-hint">Drag the circles. The text re-wraps around them as they move.</p>
+      </div>
+    </section>
 
 
     <!-- Section order follows the CV: Education, Experience, then Additional Information. -->
@@ -241,9 +273,21 @@
       <div class="wrap">
         <h2 class="section-title" id="projects-title" data-reveal><span>Recent projects</span></h2>
         <div class="projects">
-          <article class="project feature polaroid neurohex" data-reveal>
-            <img src="assets/img/neurohex.jpg" width="1400" height="875" loading="lazy" decoding="async"
-                 alt="The NeuroHex robot, a black six-legged hexapod with green servo motors, standing on a wooden table">
+          <article class="project feature neurohex" data-reveal>
+            <div class="nh-media">
+              <figure class="nh-build">
+                <span class="photo">
+                  <img src="assets/img/neurohex.jpg" width="1400" height="875" loading="lazy" decoding="async"
+                       alt="The NeuroHex robot, a black six-legged hexapod with green servo motors, standing on a wooden table">
+                </span>
+                <figcaption>The build</figcaption>
+              </figure>
+              <figure class="nh-cad">
+                <img src="assets/img/neurohex-cad.jpg" width="900" height="557" loading="lazy" decoding="async"
+                     alt="CAD model of one NeuroHex leg assembly: curved leg, two servos, and the Raspberry Pi with its camera mounted on the body plate">
+                <figcaption>CAD model</figcaption>
+              </figure>
+            </div>
             <div class="body">
               <h3>Project-NeuroHex</h3>
               <p class="status">Robotics Studio, Columbia, Fall 2026</p>
@@ -251,6 +295,10 @@
               <p class="stack">Python, pyserial, Raspberry Pi 4 and 5, Hiwonder HTD-35H servos</p>
               <a class="link" href="https://github.com/shakeabhishek/project-neurohex" target="_blank" rel="noopener">
                 View on GitHub<span class="sr-only"> (Project-NeuroHex, opens in a new tab)</span>
+                <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
+              </a>
+              <a class="link" href="https://github.com/shakeabhishek/project-neurohex/blob/main/photos/video-1.mp4" target="_blank" rel="noopener">
+                Watch it walk<span class="sr-only"> (video on GitHub, opens in a new tab)</span>
                 <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg>
               </a>
             </div>
@@ -341,5 +389,7 @@
   </footer>
 
   <script src="assets/js/site.js?v=8d6f22300a" defer></script>
+  <script src="assets/js/dither.js?v=d2886393e6" defer></script>
+  <script type="module" src="assets/js/flow.js?v=597911ea09"></script>
 </body>
 </html>
