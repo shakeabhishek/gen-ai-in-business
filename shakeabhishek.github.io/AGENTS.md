@@ -9,9 +9,9 @@ The site is plain HTML, CSS and a little JavaScript. No framework, no build step
 These never appear on the site, in a commit, in a file name, or in alt text. No exceptions, even if a source file contains them.
 
 - **Phone number.**
-- **Email address**, until Abhishek approves one specific address for the site (see section 2).
+- **Any email address except** `apillai27@gsb.columbia.edu`, which Abhishek approved for the Contact section on 2026-11-19. No other address, anywhere.
 - **Immigration, visa or work-authorization details** of any kind.
-- **The CV PDF itself** (`abhishek-technical-resume.pdf`). It holds private contact details. It stays gitignored. A public resume, if wanted, is a separate redacted file Abhishek approves.
+- **The CV PDF itself** (`abhishek-technical-resume.pdf`). It holds private contact details. It stays gitignored. The public resume is a separate file, `resume.pdf` at the site root, which Abhishek adds himself; the Contact section links to it. Before it is committed, check it for a phone number and immigration or visa terms and ask him if either is there.
 - **The original photo** (`my-photo.jpeg`). Only the processed copy in `assets/img/` is published, resized and with all metadata (EXIF, GPS, device) stripped.
 - **Anything about Interplay or Ivy beyond what the CV and LinkedIn already say publicly.** No client or family office names, no internal architecture or tooling details, no security setup, no internal metrics, screenshots, repo names, or incident stories.
 - **Secrets of any kind**: API keys, tokens, `.env` files, passwords, internal URLs, hostnames, IP addresses.
@@ -28,7 +28,7 @@ Stop and ask before doing any of these. Approval for one does not carry over to 
 - **Any `git commit`.** Commit only when asked.
 - **Adding a contact method**: email, phone, calendar link, contact form.
 - **Linking or hosting a resume.**
-- **Any claim that isn't already on the CV, LinkedIn, or a public GitHub repo.** New metrics, new titles, new dates, "award-winning", "patent-pending" in a new context.
+- **Any claim that isn't already on the CV, LinkedIn, or a public GitHub repo.** New metrics, new titles, new dates, "award-winning", "patented" in a new context.
 - **Job-search signals** like "open to work" or "looking for roles".
 - **Adding analytics, tracking, cookies, embeds, or any third-party script or CDN.** (Pretext was approved on 2026-11-18 and later removed with the About circles.)
 - **Using any photo other than** `assets/img/abhishek.jpg` and project photos from Abhishek's own public repos.
@@ -36,6 +36,8 @@ Stop and ask before doing any of these. Approval for one does not carry over to 
 - **Adding a new page or section**, or removing one.
 
 ## 3. Facts and sources
+- **Wording rules from Abhishek (2026-11-19):** never claim "multi-tenant", data pipelines or data warehouses, or people management or direct reports. Agent Buddy is "patented (held by SAP)". The SAP tool is "Integration Flow Builder". The 2024 fellowship is "Technology and Operations Management Fellow". Certifications are IBM Product Management Essentials and AWS Certified Cloud Practitioner.
+- **Ask before publishing** Ivy's ARR figure, or any revenue number.
 
 - Every claim on the site traces to one of: the CV in this folder, the LinkedIn profile at https://www.linkedin.com/in/abhishek2599/, or a public repo at https://github.com/shakeabhishek.
 - Copy numbers exactly as the source states them ("75% to 96%", "16K+"). Never round, combine or invent a number.
@@ -49,7 +51,7 @@ This folder currently sits inside the public `gen-ai-in-business` repo, on branc
 
 - Never run `git add -A` or `git add .` from the repo root without reading `git status` first.
 - `.gitignore` in this folder keeps the CV PDF and original photo out. Check `git check-ignore` before any commit that touches this folder.
-- Before any push, scan the diff for a phone number, an email address, and any immigration or visa terms.
+- Before any push, scan the diff for a phone number, any email address other than the approved one, and any immigration or visa terms.
 - Before any publish, run `python3 scripts/stamp_assets.py`. It versions the CSS and JS links so visitors never get a new page with a cached old stylesheet (GitHub Pages caches files for 10 minutes).
 
 ## 5. Style
@@ -127,6 +129,6 @@ This folder currently sits inside the public `gen-ai-in-business` repo, on branc
 
 1. Serve the folder locally (`python3 -m http.server`) and open it in a browser. Move the mouse over the hero; click through the About tabs.
 2. Check widths 375px, 768px and 1280px. No horizontal scroll.
-3. `grep` the published files for the phone number, `@`, em and en dashes, and immigration or visa terms. Expect no hits.
+3. `grep` the published files for the phone number, `@` (only the approved Contact email may appear), em and en dashes, and immigration or visa terms.
 4. Click every link.
 5. List every file created or changed.

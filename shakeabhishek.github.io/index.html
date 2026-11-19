@@ -3,16 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Abhishek Pillai | Forward deployed engineer</title>
-  <meta name="description" content="Abhishek Pillai builds multi-agent AI systems and deploys them into real companies. Founding engineer at Interplay, MBA and MS at Columbia.">
+  <title>Abhishek Pillai | Forward deployed engineer building production AI for financial firms</title>
+  <meta name="description" content="Abhishek Pillai is a forward deployed engineer building production AI for financial firms. Founding engineer on Ivy at Interplay, and an MBA and MS student at Columbia.">
   <link rel="canonical" href="https://shakeabhishek.github.io/">
   <meta name="theme-color" content="#0D1A15">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://shakeabhishek.github.io/">
-  <meta property="og:title" content="Abhishek Pillai | Forward deployed engineer">
-  <meta property="og:description" content="I build multi-agent AI systems and deploy them into real companies.">
+  <meta property="og:title" content="Abhishek Pillai | Forward deployed engineer building production AI for financial firms">
+  <meta property="og:description" content="Forward deployed engineer building production AI for financial firms. Founding engineer on Ivy at Interplay, MBA and MS at Columbia.">
   <meta property="og:image" content="https://shakeabhishek.github.io/assets/img/abhishek.jpg">
+  <meta property="og:image:alt" content="Portrait of Abhishek Pillai">
   <meta name="twitter:card" content="summary">
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -66,7 +67,7 @@
       <section class="hero" id="top" aria-labelledby="hero-title">
         <div class="hero-copy">
           <h1 id="hero-title">Abhishek Pillai</h1>
-          <p class="title">Founding Engineer, AI/ML and enterprise platforms, Forward Deployed Engineer</p>
+          <p class="title">Forward deployed engineer building production AI for financial firms</p>
           <p class="lede">I build <strong>multi-agent AI systems</strong> and deploy them into real companies. Now at Interplay, and studying for an MBA and MS at Columbia.</p>
           <div class="actions">
             <a class="btn" href="#experience">
@@ -106,7 +107,7 @@
           <section class="lens" id="lens-engineer" role="tabpanel" aria-labelledby="tab-engineer" tabindex="0">
             <p class="lens-statement">I build what sits under AI products: retrieval, evaluation, and the infrastructure that ships them.</p>
             <ul class="proofs">
-              <li><b>100K+</b><span>records in production RAG pipelines on Qdrant, with source-system permissions enforced at retrieval time</span></li>
+              <li><b>100K+</b><span>records searchable through production RAG on Qdrant, with source-system permissions enforced at retrieval time</span></li>
               <li><b>75% &rarr; 96%</b><span>retrieval hit-rate, after evaluation harnesses started gating releases in CI</span></li>
               <li><b>$50K+</b><span>saved by migrating distributed microservices to Kubernetes</span></li>
             </ul>
@@ -196,11 +197,11 @@
               <ul class="results">
                   <li class="result">
                     <span class="figure"><span class="n">5 firms</span><small>80+ agentic workflows each</small></span>
-                    <p>Led product and architecture for <strong>Ivy</strong>, a multi-agent AI platform (Temporal, OpenClaw, MCP, 100+ integrations) for family offices, scaling it from single-user to multi-tenant deployment with human-in-the-loop guardrails.</p>
+                    <p>Led product and architecture for <strong>Ivy</strong>, a multi-agent AI platform (Temporal, OpenClaw, MCP, 100+ integrations) for family offices, with human approval gates before destructive actions and before agent self-modification.</p>
                   </li>
                   <li class="result">
                     <span class="figure"><span class="n">100K+</span><small>records indexed</small></span>
-                    <p>Built production <strong>RAG pipelines</strong> over structured and unstructured records (Slack, email, Drive) on Qdrant with hybrid vector/keyword search and incremental indexing. Enforced source-system ACLs at retrieval time.</p>
+                    <p>Built production <strong>RAG</strong> over structured and unstructured records (Slack, email, Drive) on Qdrant with hybrid vector/keyword search and incremental indexing. Enforced source-system ACLs at retrieval time, and every answer cites its source.</p>
                   </li>
                   <li class="result">
                     <span class="figure"><span class="n">75%<span class="to" aria-hidden="true">&rarr;</span><span class="sr-only"> to </span>96%</span><small>retrieval hit-rate</small></span>
@@ -209,6 +210,19 @@
                   <li class="result">
                     <span class="figure"><span class="n">~$8K</span><small>inference cost cut per month</small></span>
                     <p>Instrumented LLM-native metrics (latency, token usage, cost-per-request) with granular Langfuse tracing. Built adaptive model routing (LiteLLM) and prompt caching, speeding responses 5.2x.</p>
+                  </li>
+                  <li class="result plain">
+                    <p>Deployed one versioned Python core as <strong>hard-isolated per-firm instances</strong> (Mac mini or cloud VM), with signed, health-gated releases, canary rollout and automatic rollback.</p>
+                  </li>
+                  <li class="result plain">
+                    <p>Built a <strong>pre-delivery verifier</strong> that checks cited sources and financial figures against live systems of record before Ivy sends an answer.</p>
+                  </li>
+                  <li class="result plain">
+                    <p>Added <strong>per-page vision transcription</strong> for scanned PDFs, so capital calls and fund reports without a text layer can be searched and cited.</p>
+                  </li>
+                  <li class="result">
+                    <span class="figure"><span class="n">10</span><small>pre-bundled automations</small></span>
+                    <p>Wrote the <strong>onboarding playbook</strong> and onboarding workflow. Ivy ships with 10 pre-bundled automations, so a firm sees value right after installation.</p>
                   </li>
                 </ul>
             </div>
@@ -225,11 +239,11 @@
               <ul class="results">
                   <li class="result">
                     <span class="figure"><span class="n">80%+</span><small>faster AI use-case evaluation</small></span>
-                    <p>Owned discovery, technical specs, build and productization of <strong>Agent Buddy</strong>, an award-winning, patent-pending multi-agent AI platform (Python, CrewAI, LangGraph) that cut enterprise AI use-case evaluation and implementation time.</p>
+                    <p>Owned discovery, technical specs, build and productization of <strong>Agent Buddy</strong>, an award-winning, patented (held by SAP) multi-agent AI platform (Python, CrewAI, LangGraph) that cut enterprise AI use-case evaluation and implementation time.</p>
                   </li>
                   <li class="result">
                     <span class="figure"><span class="n">66%</span><small>less integration dev time</small></span>
-                    <p>Defined requirements and led delivery of LLM-powered developer tools (Flow Builder, Code Optimizer) using Java, Claude and agentic workflows, across 16K+ enterprise customers.</p>
+                    <p>Defined requirements and led delivery of LLM-powered developer tools (Integration Flow Builder, Code Optimizer) using Java, Claude and agentic workflows, across 16K+ enterprise customers.</p>
                   </li>
                   <li class="result plain">
                     <p>Built LLM evaluation and observability infrastructure (regression testing, performance monitoring, experimentation pipelines) for SAP's core AI API framework, and partnered with product managers to define its pricing, billing and usage metering.</p>
@@ -244,7 +258,7 @@
             </div>
             <span class="node" aria-hidden="true"></span>
             <div class="stop-body">
-              <h3 class="role-title">Product Strategy and Operations Fellow</h3>
+              <h3 class="role-title">Technology and Operations Management Fellow</h3>
               <ul class="results">
                   <li class="result">
                     <span class="figure"><span class="n">$200K</span><small>new pipeline</small></span>
@@ -321,7 +335,7 @@
               <p class="panel-kicker">At Interplay</p>
               <h3 id="p-ivy">Ivy</h3>
               <p class="status">Founding engineer. Live at five firms</p>
-              <p>The AI operator for financial firms: family offices, funds, venture capital and RIAs. Ivy works where the firm already works, in email, Slack, calendar and shared drives, runs standing briefs on a schedule, and sends nothing without a person's sign-off. I lead its product and architecture, and took it from a single user to multi-tenant deployment at five firms.</p>
+              <p>The AI operator for financial firms: family offices, funds, venture capital and RIAs. Ivy works where the firm already works, in email, Slack, calendar and shared drives, runs standing briefs on a schedule, and sends nothing without a person's sign-off. I lead its product and architecture: one versioned core, deployed as a hard-isolated instance for each firm.</p>
               <p class="stack">Temporal, Claude, MCP, Qdrant, LiteLLM, Langfuse</p>
               <div class="panel-links"><a class="link" href="https://ivy.one" target="_blank" rel="noopener">Visit ivy.one<span class="sr-only"> (Ivy, opens in a new tab)</span><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></svg></a></div>
             </div>
@@ -387,7 +401,7 @@
           <article class="card note sky" data-reveal>
             <h3>Certifications</h3>
             <ul class="chips">
-              <li>Product Management</li><li>AWS Cloud Practitioner</li><li>Microservices</li><li>Docker/Kubernetes</li>
+              <li>IBM Product Management Essentials</li><li>AWS Certified Cloud Practitioner</li>
             </ul>
           </article>
           <article class="card note slate span" data-reveal>
@@ -414,6 +428,14 @@
           <a class="btn ghost" href="https://github.com/shakeabhishek" target="_blank" rel="noopener">
             <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg>
             GitHub<span class="sr-only"> (opens in a new tab)</span>
+          </a>
+          <a class="btn ghost" href="mailto:apillai27@gsb.columbia.edu">
+            <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"/></svg>
+            Email
+          </a>
+          <a class="btn ghost" href="/resume.pdf" download>
+            <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"/></svg>
+            Download resume
           </a>
         </div>
         </div>
