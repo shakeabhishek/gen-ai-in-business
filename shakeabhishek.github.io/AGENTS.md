@@ -30,7 +30,7 @@ Stop and ask before doing any of these. Approval for one does not carry over to 
 - **Linking or hosting a resume.**
 - **Any claim that isn't already on the CV, LinkedIn, or a public GitHub repo.** New metrics, new titles, new dates, "award-winning", "patent-pending" in a new context.
 - **Job-search signals** like "open to work" or "looking for roles".
-- **Adding analytics, tracking, cookies, embeds, or any third-party script or CDN.** (Pretext, self-hosted in `assets/vendor/`, was approved on 2026-11-18.)
+- **Adding analytics, tracking, cookies, embeds, or any third-party script or CDN.** (Pretext was approved on 2026-11-18 and later removed with the About circles.)
 - **Using any photo other than** `assets/img/abhishek.jpg` and project photos from Abhishek's own public repos.
 - **Deleting, renaming or moving files** Abhishek created.
 - **Adding a new page or section**, or removing one.
@@ -66,33 +66,37 @@ This folder currently sits inside the public `gen-ai-in-business` repo, on branc
 
 ### Visual system
 
-A dark editorial design portfolio: midnight navy, off-white type, Columbia Blue as the single accent. Everything sits square. Color comes from Columbia's palette: Columbia Blue `#B9D9EB` (visualidentity.columbia.edu), the primary blue `#1D4F91` (PMS 7686) and navy. No pastels.
+**Contour**: a dark, abstract topographic survey map. Forest green, bone and sand. Abhishek picked this from four themes (Blueprint, Graphite, Contour, Paper) and asked for it to be "more abstract and artsy", while staying professional.
 
 | Token | Value | Use |
 |---|---|---|
-| `--bg` | `#0A0F1C` | Page background |
-| `--surface` | `#121A2B` | Plain cards, NeuroHex card |
-| `--ink` | `#EEF2F7` | Text |
-| `--ink-soft` | `#9AA6BA` | Secondary text |
-| `--accent` / `--sky` | `#B9D9EB` | Links, buttons, Engineering card, SAP label, active menu item, title underlines |
-| `--navy` | `#13305F` | Business School card, Interplay label, Argus card, contact panel |
-| `--cu-blue` | `#1D4F91` | Hero glow, the About section's circles |
-| `--slate` | `#C9D3DF` | Volunteering card, Wolters Kluwer label |
-| `--pale` | `#141E31` | VIT card, skill chips |
+| `--bg` | `#0D1A15` | Page background (forest) |
+| `--surface` | `#14251E` | Plain cards, NeuroHex card, About panel |
+| `--ink` | `#EEF2EC` | Text |
+| `--ink-soft` | `#9DB2A8` | Secondary text |
+| `--accent` / `--sky` | `#E9C46A` | Sand: links, buttons, active menu item, title underlines, contour lines, SAP label, Engineering card |
+| `--navy` | `#1C3A2F` | Deep green cards: Business School, Interplay label, Argus, contact |
+| `--cu-blue` | `#2F6B55` | Moss: the hero glow |
+| `--slate` | `#E6E1D3` | Bone: volunteering card, Wolters Kluwer label |
+| `--pale` | `#12221C` | VIT card, skill chips |
 
-- **Signature pieces** (picked from two "design trends" lists Abhishek shared; most of the rest are AI-site cliches and stay out):
-  - **Blueprint hero:** grainy navy gradient with a major and minor Columbia Blue grid. The band runs up under the transparent header.
-  - **Dithered portrait:** `assets/js/dither.js` paints a two-color Atkinson dither over the photo; hover shows color. Only dither dark, high-contrast photos (the studio portrait). Bright photos turn into blobs, so NeuroHex stays in color. Touch devices always get color.
-  - **About text flow:** `assets/js/flow.js` uses Pretext (`assets/vendor/pretext/`, MIT, `@chenglou/pretext` 1.0.0, self-hosted) to wrap the About text around circles you can drag. Words never split inside a gap; a finished paragraph ends its line; on phones the circles start at the edges. The paragraphs in `.flow-source` are the real, accessible text and show if the script doesn't run. Every sentence there must come from the CV or the repos.
-  - **One marquee** of tools from the CV. Only one per page.
-- **Deliberately not used:** cream backgrounds, Instrument Serif or any serif, one italic word in a headline, all-caps eyebrows, pulsing dots, three equal icon cards, sparkle icons, liquid glass.
-- Text on sky and slate cards is always `--note-ink` (navy `#0B2551`). Text on navy is white.
+- **Signature pieces:**
+  - **Live contour map** in the hero (`assets/js/terrain.js`): a fixed height field drawn with marching squares, every fifth line heavier like index contours. The mouse raises a hill and the lines flow around it. It redraws only while the pointer moves, so it is not an autoplaying loop. Touch devices and reduced motion get one still drawing. Lines are at half strength behind the text column. Without JS, `assets/img/contours.svg` shows instead.
+  - **Ridgelines** (`assets/img/ridges.svg`, generated): stacked mountain profiles open each section, each section showing a different stretch (`--ridge-x`).
+  - **Faint topography** behind the About panel and the contact panel (`contours.svg`, masked to stay behind text).
+  - **About lenses** (`assets/js/about.js`): an ARIA tab set, Engineer / Product / Builder / Student, each with one statement, three proof points with real numbers, and links to the sections. Without JS all four show. Every proof point must come from the CV or the repos.
+  - **Frosted glass** title chip and outline button over the hero; **squircle** corners on cards and photos (`corner-shape: squircle` where supported).
+  - **One marquee** of tools from the CV.
+- **Tried and removed:** dithering on Abhishek's photo and the draggable circles in About (rejected), the Pretext text-flow library (removed with them), the Blueprint, Graphite and Paper themes (not picked).
+- **Deliberately not used:** cream backgrounds, serifs, one italic word in a headline, all-caps eyebrows, pulsing dots, three equal icon cards, sparkle icons.
+- Text on sand and bone (`--sky`, `--slate`) is always `--note-ink` (`#1A1A10`). Text on deep green (`--navy`) is white.
 - **Only one photo in the hero**: Abhishek's portrait. Nothing else goes near it.
-- Project cards wear their own repo's identity (NeuroHex servo green with the CAD model next to the build, Lumi's pink pixel heart, Argus's cat mascot on a navy card). Take these from the repo, never invent them.
+- Project cards wear their own repo's identity (NeuroHex servo green with the CAD model next to the build, Lumi's pink pixel heart, Argus's cat mascot on a deep green card). Take these from the repo, never invent them.
 - **Nothing is tilted or rotated.** No tape, no stickers poking out of cards, no overlapping photos. Abhishek rejected these as unprofessional.
 
+- **Photos:** always shown in full color. No dithering, pixelation or filters on Abhishek's photo.
 - **Type:** Geist only (self-hosted in `assets/fonts/`). Weights 400, 500, 600, 700. No second family, no monospace labels.
-- **Radius:** colored cards and photos are 4px, plain cards 14px, buttons, chips and the About circles are full pills. Nothing else.
+- **Radius:** cards and photos use the squircle token (`--squircle`), chips and buttons are full pills. Nothing else.
 - **Theme:** one dark theme for everyone, on purpose. No light mode.
 - **Layout:** content max width 1200px, 24px side gutters (16px on phones). Every multi-column layout collapses to one column under 768px. No horizontal page scroll at 360px.
 - **Icons:** Phosphor (regular weight) only, inlined as SVG. No emoji.
@@ -107,18 +111,17 @@ A dark editorial design portfolio: midnight navy, off-white type, Columbia Blue 
 - Hover effects only under `@media (hover: hover) and (pointer: fine)`.
 - **Phones scroll plain content.** Scroll-driven reveals and the blurred header only run on desktops with a mouse. Never call `scrollIntoView()` from scroll-tracking code: on phones it also scrolls the page and makes it jump. Move inner scrollers with `element.scrollTo()` instead. Test with real-time mobile emulation (a CDP script: 390px, touch, coarse pointer) and expect 0 jumps.
 - Under `prefers-reduced-motion: reduce`, nothing moves on its own; content is simply visible.
-- **Testing needs a local server** (`python3 -m http.server`): browsers block JavaScript modules on `file://`, so the About flow won't run from a double-clicked file.
 
 ### Accessibility and performance
 
 - WCAG AA contrast. Visible focus ring on every interactive element. Tap targets at least 44px.
 - Semantic HTML: one `h1` per page, landmarks (`header`, `main`, `footer`), a skip link.
 - External links open in a new tab with `rel="noopener"` and say so to screen readers.
-- No JavaScript is required to read the page. JS only adds motion, dithering and the text flow.
+- No JavaScript is required to read the page. JS only adds the menu highlight, the About tabs and the live contour map.
 
 ## 6. Before saying it's done
 
-1. Serve the folder locally and open it in a browser. Drag the About circles.
+1. Serve the folder locally (`python3 -m http.server`) and open it in a browser. Move the mouse over the hero; click through the About tabs.
 2. Check widths 375px, 768px and 1280px. No horizontal scroll.
 3. `grep` the published files for the phone number, `@`, em and en dashes, and immigration or visa terms. Expect no hits.
 4. Click every link.

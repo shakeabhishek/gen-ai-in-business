@@ -6,7 +6,7 @@
   <title>Abhishek Pillai | Forward deployed engineer</title>
   <meta name="description" content="Abhishek Pillai builds multi-agent AI systems and deploys them into real companies. Founding engineer at Interplay, MBA and MS at Columbia.">
   <link rel="canonical" href="https://shakeabhishek.github.io/">
-  <meta name="theme-color" content="#0A0F1C">
+  <meta name="theme-color" content="#0D1A15">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://shakeabhishek.github.io/">
@@ -17,7 +17,7 @@
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/geist-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=b466e438f8">
+  <link rel="stylesheet" href="assets/css/site.css?v=c89814dbbe">
 
   <script type="application/ld+json">
   {
@@ -68,10 +68,8 @@
           </div>
         </div>
         <figure class="hero-photo">
-          <span class="dither" data-dither>
-            <img src="assets/img/abhishek.jpg" width="900" height="1200" fetchpriority="high"
+          <img src="assets/img/abhishek.jpg" width="900" height="1200" fetchpriority="high"
                  alt="Portrait of Abhishek Pillai in a black suit against a dark grey studio background">
-          </span>
         </figure>
       </section>
     </div>
@@ -87,21 +85,53 @@
     <section class="section about" id="about" aria-labelledby="about-title">
       <div class="wrap">
         <h2 class="section-title" id="about-title" data-reveal><span>About</span></h2>
-        <div class="flow" data-flow>
-          <div class="flow-source">
-            <p>I started in enterprise software at Wolters Kluwer in Chennai, moving distributed microservices onto Kubernetes and building automated error reporting for more than 400 enterprise APIs.</p>
-            <p>At SAP in Bangalore I spent four years between engineering and product. I wrote requirements and Figma mocks for SuccessFactors Pay, a $50M+ payroll platform, led the customer discovery interviews that shaped the roadmap for SAP Joule, and then built Agent Buddy, an award-winning, patent-pending multi-agent platform that cut enterprise AI use-case evaluation time by more than 80%.</p>
-            <p>Today I'm a founding engineer at Interplay in New York. I lead product and architecture for Ivy, a multi-agent AI platform for family offices that now runs at five firms, with retrieval over 100K+ records and evaluation harnesses that gate releases.</p>
-            <p>I'm also doing an MBA at Columbia Business School and an MS in machine learning, AI and robotics at Columbia Engineering, at the same time. Outside class I build things you can touch: a six-legged robot that walks on a servo driver I wrote, a desk companion that runs its own language model, and a team of agents that runs my daily work from Slack.</p>
+        <p class="about-intro" data-reveal>I work across engineering and product. Pick a lens to see the evidence.</p>
+        <div class="lenses" data-reveal>
+          <div class="lens-tabs" role="tablist" aria-label="About me, by lens">
+          <button type="button" role="tab" id="tab-engineer" aria-controls="lens-engineer" aria-selected="true">Engineer</button>
+          <button type="button" role="tab" id="tab-product" aria-controls="lens-product" aria-selected="false" tabindex="-1">Product</button>
+          <button type="button" role="tab" id="tab-builder" aria-controls="lens-builder" aria-selected="false" tabindex="-1">Builder</button>
+          <button type="button" role="tab" id="tab-student" aria-controls="lens-student" aria-selected="false" tabindex="-1">Student</button>
           </div>
-          <div class="flow-lines" aria-hidden="true"></div>
-          <button type="button" class="orb orb-photo" data-x="0.5" data-y="0.42" data-mx="0.74" data-my="0.36" aria-label="Portrait. Drag it, or press the arrow keys, to move it through the text.">
-            <span class="dither" data-dither><img src="assets/img/abhishek.jpg" width="900" height="1200" alt="" loading="lazy" decoding="async"></span>
-          </button>
-          <button type="button" class="orb orb-sky" data-x="0.14" data-y="0.78" data-mx="0.16" data-my="0.74" aria-label="Blue circle. Drag it, or press the arrow keys, to move it through the text."></button>
-          <button type="button" class="orb orb-ring" data-x="0.86" data-y="0.16" data-mx="0.86" data-my="0.08" aria-label="Ring. Drag it, or press the arrow keys, to move it through the text."></button>
+          <div class="lens-panels">
+          <section class="lens" id="lens-engineer" role="tabpanel" aria-labelledby="tab-engineer" tabindex="0">
+            <p class="lens-statement">I build what sits under AI products: retrieval, evaluation, and the infrastructure that ships them.</p>
+            <ul class="proofs">
+              <li><b>100K+</b><span>records in production RAG pipelines on Qdrant, with source-system permissions enforced at retrieval time</span></li>
+              <li><b>75% &rarr; 96%</b><span>retrieval hit-rate, after evaluation harnesses started gating releases in CI</span></li>
+              <li><b>$50K+</b><span>saved by migrating distributed microservices to Kubernetes</span></li>
+            </ul>
+            <p class="lens-where"><span>See it in</span> <a class="where" href="#exp-interplay">Interplay</a> <a class="where" href="#exp-wk">Wolters Kluwer</a></p>
+          </section>
+          <section class="lens" id="lens-product" role="tabpanel" aria-labelledby="tab-product" tabindex="0">
+            <p class="lens-statement">I have taken products from customer discovery to launch, and written the requirements in between.</p>
+            <ul class="proofs">
+              <li><b>$200K</b><span>new pipeline from 10+ enterprise discovery interviews that shaped the SAP Joule roadmap</span></li>
+              <li><b>$50M+</b><span>payroll platform, SuccessFactors Pay, carried through its pilot with a living PRD and Figma mocks</span></li>
+              <li><b>80%+</b><span>less time to evaluate enterprise AI use cases with Agent Buddy, which I took from discovery to product</span></li>
+            </ul>
+            <p class="lens-where"><span>See it in</span> <a class="where" href="#exp-sap">SAP</a></p>
+          </section>
+          <section class="lens" id="lens-builder" role="tabpanel" aria-labelledby="tab-builder" tabindex="0">
+            <p class="lens-statement">Outside work I build things you can touch, from the servos up.</p>
+            <ul class="proofs">
+              <li><b>6 legs</b><span>NeuroHex walks with a tripod gait on 12 bus servos, run by a driver I wrote</span></li>
+              <li><b>7B</b><span>Lumi runs a local language model (Qwen2.5 7B) on a Raspberry Pi 5, nothing leaves the device by default</span></li>
+              <li><b>Slack</b><span>Argus routes my daily work to specialist agents and waits for my approval before anything irreversible</span></li>
+            </ul>
+            <p class="lens-where"><span>See it in</span> <a class="where" href="#projects">Projects</a></p>
+          </section>
+          <section class="lens" id="lens-student" role="tabpanel" aria-labelledby="tab-student" tabindex="0">
+            <p class="lens-statement">I am doing an MBA and an MS in machine learning, AI and robotics at Columbia, at the same time.</p>
+            <ul class="proofs">
+              <li><b>MBA</b><span>Columbia Business School, Columbia Fellow, Enterprises and Strategy, 2025 - 2027</span></li>
+              <li><b>MS</b><span>Columbia Engineering, Machine Learning, Artificial Intelligence, and Robotics, 2025 - 2027</span></li>
+              <li><b>3 roles</b><span>Board Member of the Peer Advisors Program, Career Management Center Fellow, Small Business Consulting Program consultant</span></li>
+            </ul>
+            <p class="lens-where"><span>See it in</span> <a class="where" href="#education">Education</a></p>
+          </section>
+          </div>
         </div>
-        <p class="flow-hint">Drag the circles. The text re-wraps around them as they move.</p>
       </div>
     </section>
 
@@ -389,7 +419,7 @@
   </footer>
 
   <script src="assets/js/site.js?v=8d6f22300a" defer></script>
-  <script src="assets/js/dither.js?v=d2886393e6" defer></script>
-  <script type="module" src="assets/js/flow.js?v=597911ea09"></script>
+  <script src="assets/js/about.js?v=7eb7488f99" defer></script>
+  <script src="assets/js/terrain.js?v=ba487b1322" defer></script>
 </body>
 </html>
