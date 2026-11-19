@@ -84,6 +84,8 @@ This folder currently sits inside the public `gen-ai-in-business` repo, on branc
   - **Live contour map** in the hero (`assets/js/terrain.js`): a fixed height field drawn with marching squares, every fifth line heavier like index contours. The mouse raises a hill and the lines flow around it. It redraws only while the pointer moves, so it is not an autoplaying loop. Touch devices and reduced motion get one still drawing. Lines are at half strength behind the text column. Without JS, `assets/img/contours.svg` shows instead.
   - **Ridgelines** (`assets/img/ridges.svg`, generated): stacked mountain profiles open each section, each section showing a different stretch (`--ridge-x`).
   - **Faint topography** behind the About panel and the contact panel (`contours.svg`, masked to stay behind text).
+  - **Projects gallery:** four full-size panels (Ivy, NeuroHex, Lumi, Argus). On desktops with a mouse the section pins and vertical scrolling pans the panels sideways, via CSS scroll-driven animation (`view-timeline`), with a progress line. Phones get a swipeable snap carousel; the track needs `contain: paint` or mobile Chrome widens and zooms out the whole page.
+  - **Scroll as a descent** (desktop only, pure CSS): the hero copy and photo recede and the contour map zooms as you leave it, ridgelines drift sideways, the Experience line draws and each ring fills as you reach it, and an altimeter rail on the right tracks depth with one tick per section.
   - **About lenses** (`assets/js/about.js`): an ARIA tab set, Engineer / Product / Builder / Student, each with one statement, three proof points with real numbers, and links to the sections. Without JS all four show. Every proof point must come from the CV or the repos.
   - **Frosted glass** title chip and outline button over the hero; **squircle** corners on cards and photos (`corner-shape: squircle` where supported).
   - **One marquee** of tools from the CV.
@@ -91,6 +93,8 @@ This folder currently sits inside the public `gen-ai-in-business` repo, on branc
 - **Deliberately not used:** cream backgrounds, serifs, one italic word in a headline, all-caps eyebrows, pulsing dots, three equal icon cards, sparkle icons.
 - Text on sand and bone (`--sky`, `--slate`) is always `--note-ink` (`#1A1A10`). Text on deep green (`--navy`) is white.
 - **Only one photo in the hero**: Abhishek's portrait. Nothing else goes near it.
+- **Ivy panel:** only public facts. Its description comes from ivy.one and the CV ("five firms"), its logo is the leaf from ivy.one, and it links to https://ivy.one. Nothing from the private ivy-one repo goes on the site (section 1).
+- **NeuroHex panel:** shows the Giant Fiber neuron (DNp01, right) drawn from its SWC skeleton on Virtual Fly Brain (Male CNS connectome, Berg et al. 2025, CC BY 4.0). The visible caption credits the source and license; keep it whenever the image is used.
 - Project cards wear their own repo's identity (NeuroHex servo green with the CAD model next to the build, Lumi's pink pixel heart, Argus's cat mascot on a deep green card). Take these from the repo, never invent them.
 - **Nothing is tilted or rotated.** No tape, no stickers poking out of cards, no overlapping photos. Abhishek rejected these as unprofessional.
 

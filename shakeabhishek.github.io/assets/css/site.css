@@ -84,10 +84,10 @@ main { overflow-x: clip; }
 }
 
 /* Squircles (#19): cards and photos get superellipse corners where the browser supports corner-shape. */
-.note, .plain-card, .neurohex, .lumi, .argus, .hero-photo img, .nh-media img, .lens-panels { border-radius: var(--squircle); }
+.note, .plain-card, .panel, .hero-photo img, .lens-panels { border-radius: var(--squircle); }
 @supports (corner-shape: squircle) {
   :root { --squircle: 34px; }
-  .note, .plain-card, .neurohex, .lumi, .argus, .hero-photo img, .nh-media img, .lens-panels { corner-shape: squircle; }
+  .note, .plain-card, .panel, .hero-photo img, .lens-panels { corner-shape: squircle; }
 }
 
 /* Buttons and links */
@@ -286,52 +286,87 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .result p strong { font-weight: 600; }
 .result.plain p { grid-column: 2; }
 
-/* Projects: a taped polaroid, a sticky note, a blue card */
+/* Projects: four full-size panels. On desktop the section pins and scrolling moves you sideways
+   through them (pure CSS scroll-driven animation, nothing hijacks the scroll). Elsewhere the track
+   is a swipeable carousel. */
 
-.projects { margin-top: 56px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; align-items: start; }
-.project { display: flex; flex-direction: column; gap: 10px; }
-.project h3 { font-size: 26px; letter-spacing: -0.03em; }
-.project p { font-size: 16px; line-height: 1.55; }
-.project .stack { font-size: 14px; opacity: 0.75; }
-.project.note { padding: 28px; min-height: 300px; }
-.project.note .link { margin-top: auto; }
-.project.feature { grid-column: span 2; grid-row: span 2; padding-bottom: 20px; }
-.project.feature .body { padding: 18px 10px 0; display: flex; flex-direction: column; gap: 10px; }
-.project.feature h3 { font-size: 32px; }
-.status { align-self: flex-start; font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: rgba(27, 29, 34, 0.08); }
-.note.blue .status { background: rgba(255, 255, 255, 0.18); }
+.projects-section { padding-bottom: 72px; }
+.projects-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; }
+.projects-hint { color: var(--ink-soft); font-size: 14px; }
+.projects-track {
+  display: flex; gap: 24px; margin-top: 36px; padding: 4px max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter))) 24px;
+  overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain;
+  /* Without this, mobile Chrome widens the whole page to fit the carousel and zooms out. */
+  contain: paint;
+}
+.projects-track::-webkit-scrollbar { display: none; }
+.projects-progress { display: none; }
 
-/* Each project card wears its own repo's look. */
+.panel {
+  flex: none; width: min(1040px, 86vw); scroll-snap-align: center;
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 0; overflow: hidden;
+  background: var(--surface); box-shadow: inset 0 0 0 1px var(--rule), var(--lift); border-radius: var(--squircle);
+}
+@supports (corner-shape: squircle) { .panel { corner-shape: squircle; } }
+.panel-visual { margin: 0; display: grid; place-items: center; min-height: 320px; position: relative; }
+.panel-body { padding: 40px; display: flex; flex-direction: column; gap: 12px; }
+.panel-kicker { font-size: 14px; font-weight: 600; color: var(--sky); }
+.panel h3 { font-size: clamp(30px, 3.4vw, 46px); letter-spacing: -0.035em; }
+.panel p { font-size: 16.5px; line-height: 1.6; }
+.panel .stack { font-size: 14px; color: var(--ink-soft); }
+.panel-links { display: flex; flex-wrap: wrap; gap: 4px 24px; margin-top: auto; }
+.status { align-self: flex-start; font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: rgba(233, 196, 106, 0.14); color: var(--sky); }
 
-/* NeuroHex: the real build next to its CAD model, same size, side by side. Servo green, the label color on its servos. */
-.neurohex { background: var(--surface); border-radius: var(--paper-radius); box-shadow: inset 0 0 0 1px var(--rule), var(--lift); padding: 12px 12px 22px; }
-.nh-media { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; align-items: start; }
-.nh-media img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 2px; }
-.nh-media figcaption { font-size: 13px; color: var(--ink-soft); margin-top: 8px; }
-.neurohex .status { background: rgba(112, 190, 74, 0.16); color: #9BD27F; }
-.neurohex .body .link + .link { margin-top: -10px; }
+/* Ivy: its own brand, a green leaf on bone (from ivy.one). */
+.ivy-visual { background: radial-gradient(circle at 50% 45%, #F3F0E6 0%, #E6E1D3 70%); }
+.ivy-visual img { width: 46%; max-width: 220px; height: auto; }
+.ivy .status { background: rgba(20, 81, 59, 0.35); color: #BFE3CF; }
 
-/* Lumi: its pink pixel heart, glowing on the night-mode face screen. */
-.lumi { padding: 18px 18px 28px; border-radius: var(--paper-radius); box-shadow: var(--lift); color: #F3F1FA;
-        background: linear-gradient(180deg, #1C2340 0%, #0A0E1E 100%); }
-.lumi .screen { display: grid; place-items: center; aspect-ratio: 16 / 9; border-radius: 10px; border: 3px solid #2B3354; margin-bottom: 8px;
-                background: radial-gradient(circle at 50% 50%, rgba(255, 77, 143, 0.22), transparent 62%), #0A0E1E; }
-.lumi .screen img { width: 38%; image-rendering: pixelated; filter: drop-shadow(0 0 14px rgba(255, 77, 143, 0.55)); }
-.lumi h3 { color: #FFFFFF; }
+/* NeuroHex: the Giant Fiber neuron it is built around, from Virtual Fly Brain. */
+.neuron-visual { background: radial-gradient(circle at 40% 35%, rgba(47, 107, 85, 0.45), transparent 70%), #0B1612; padding: 24px 24px 48px; }
+.neuron-visual img { max-height: 420px; width: auto; max-width: 100%; }
+.neuron-visual figcaption { position: absolute; left: 16px; right: 16px; bottom: 12px; font-size: 12px; color: var(--ink-soft); line-height: 1.4; }
+.neuron-visual figcaption a { color: inherit; }
+
+/* Lumi: its pink pixel heart on the night-mode face screen. */
+.lumi .screen { background: radial-gradient(circle at 50% 50%, rgba(255, 77, 143, 0.22), transparent 62%), linear-gradient(180deg, #1C2340 0%, #0A0E1E 100%); }
+.lumi .screen img { width: 34%; image-rendering: pixelated; filter: drop-shadow(0 0 14px rgba(255, 77, 143, 0.55)); }
 .lumi .status { background: rgba(255, 77, 143, 0.16); color: #FF6FA5; }
-.lumi .link { color: #FF6FA5; }
-@media (prefers-reduced-motion: no-preference) and (hover: hover) {
-  .lumi .screen img { transition: scale 300ms var(--ease-out); }
-  .lumi:hover .screen img { scale: 1.08; }
+.lumi .link { color: #FF8DB6; }
+
+/* Argus: named for the cat in its logo. */
+.argus-visual { background: #FCFCFD; } /* the logo's own background, so its edges disappear */
+.argus-visual img { width: 46%; max-width: 220px; height: auto; }
+.argus .agents { display: flex; flex-wrap: wrap; gap: 6px; }
+.argus .agents li { font-size: 13px; font-weight: 500; padding: 5px 10px; border-radius: 999px; background: rgba(233, 196, 106, 0.14); color: var(--sky); }
+
+@media (max-width: 767px) {
+  .panel { grid-template-columns: 1fr; width: 86vw; }
+  .panel-visual { min-height: 220px; }
+  .neuron-visual img { max-height: 260px; }
+  .panel-body { padding: 24px; }
+  .projects-hint { display: none; }
 }
 
-/* Argus: named for the cat in its logo. Navy card in the site palette, with Argus on a white circle. */
-.argus { position: relative; padding: 28px; border-radius: var(--paper-radius); box-shadow: var(--lift); background: var(--navy); color: #FFFFFF; }
-.argus h3 { padding-right: 76px; min-height: 64px; display: flex; align-items: center; }
-.argus .mascot { position: absolute; top: 22px; right: 22px; width: 64px; height: 64px; padding: 4px; background: #FFFFFF; border-radius: 999px; }
-.argus .agents { display: flex; flex-wrap: wrap; gap: 6px; }
-.argus .agents li { font-size: 13px; font-weight: 500; padding: 5px 10px; border-radius: 999px; background: rgba(185, 217, 235, 0.16); color: var(--sky); }
-.argus .link { color: var(--sky); margin-top: auto; }
+/* Desktop with a mouse: pin the section and pan the track as you scroll. */
+@supports (animation-timeline: view()) {
+  @media (hover: hover) and (pointer: fine) and (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    .projects-section { height: 340vh; padding: 0; view-timeline: --projects block; }
+    .projects-section::before { display: none; }
+    .projects-pin > .wrap { width: 100%; }
+    .projects-pin { position: sticky; top: 0; height: 100vh; padding-top: calc(var(--header) + 40px); display: flex; flex-direction: column; overflow: hidden; }
+    .projects-track {
+      overflow: visible; scroll-snap-type: none; width: max-content; contain: none; flex: 1; align-items: stretch; padding-bottom: 32px;
+      animation: pan linear both; animation-timeline: --projects; animation-range: contain 0% contain 100%;
+    }
+    .panel { width: min(1040px, 78vw); }
+    .projects-progress { display: block; padding-bottom: 28px; }
+    .projects-progress .bar { display: block; height: 2px; background: var(--rule); position: relative; overflow: hidden; }
+    .projects-progress .bar::after { content: ""; position: absolute; inset: 0; background: var(--sky); transform-origin: left; animation: grow linear both; animation-timeline: --projects; animation-range: contain 0% contain 100%; }
+  }
+}
+@keyframes pan { from { transform: translateX(0); } to { transform: translateX(calc(-100% + 100vw)); } }
+@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 /* Skills, certifications, volunteering */
 
@@ -412,7 +447,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   .hero { grid-template-columns: 1fr; padding: 24px 0 72px; }
   .hero h1 { font-size: clamp(56px, 17vw, 88px); }
   .hero-photo { width: min(340px, 88%); justify-self: start; }
-  .nh-media { grid-template-columns: 1fr; }
   .proofs { grid-template-columns: 1fr; gap: 24px; }
   .section::before { height: 96px; margin-bottom: 20px; }
   .lens-panels { padding: 24px; }
@@ -423,8 +457,42 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
   .school.wide { grid-row: auto; }
   .result { grid-template-columns: 1fr; gap: 6px; }
   .result.plain p { grid-column: auto; }
-  .projects { grid-template-columns: 1fr; }
-  .project.feature { grid-column: auto; grid-row: auto; }
-  .project.note { min-height: 0; }
   .contact .note { padding: 48px 20px 40px; }
 }
+
+/* Scroll as a descent. Desktop with a mouse only, pure CSS scroll-driven animation, so the
+   scroll itself is never hijacked and phones scroll plain content. */
+
+/* Altimeter: a rail on the right that fills as you descend, one tick per section (placed by site.js). */
+.altimeter { display: none; }
+@supports (animation-timeline: scroll()) {
+  @media (hover: hover) and (pointer: fine) and (min-width: 1200px) {
+    .altimeter { display: block; position: fixed; z-index: 9; right: 22px; top: calc(var(--header) + 28px); bottom: 28px; width: 2px; background: var(--rule); }
+    .altimeter::after { content: ""; position: absolute; inset: 0; background: var(--sky); transform-origin: top; animation: grow-y linear both; animation-timeline: scroll(root); }
+    .altimeter a { position: absolute; right: -5px; width: 12px; height: 12px; border-radius: 999px; background: var(--bg); box-shadow: inset 0 0 0 2px var(--ink-soft); z-index: 1; translate: 0 -50%; }
+    .altimeter a span { position: absolute; right: 22px; top: 50%; translate: 0 -50%; white-space: nowrap; font-size: 12px; font-weight: 600; color: var(--ink-soft); opacity: 0; transition: opacity 200ms ease; }
+    .altimeter a:hover span { opacity: 1; }
+    .altimeter a[aria-current="true"] { box-shadow: inset 0 0 0 2px var(--sky); background: var(--sky); }
+  }
+}
+@keyframes grow-y { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+@supports (animation-timeline: view()) {
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    /* The hero recedes: copy and photo drift up and fade, the contour map slowly zooms. */
+    .hero-copy { animation: recede linear both; animation-timeline: view(); animation-range: exit 10% exit 100%; }
+    .marquee { position: relative; z-index: 2; background: var(--bg); }
+    .hero-photo img { animation: recede-photo linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; }
+    .terrain { animation: zoom-in linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; }
+    /* Ridgelines drift sideways at their own pace, for depth. */
+    .section::before { width: calc(100% + 280px); animation: ridge-drift linear both; animation-timeline: view(); animation-range: entry 0% exit 100%; }
+    /* Experience: the line draws and each ring fills as you reach it. */
+    .node::after { transform-origin: top; animation: grow-y linear both; animation-timeline: view(); animation-range: entry 20% cover 55%; }
+    .node::before { animation: ring-on linear both; animation-timeline: view(); animation-range: entry 30% entry 70%; }
+  }
+}
+@keyframes recede { to { transform: translateY(-60px); opacity: 0; } }
+@keyframes recede-photo { to { transform: translateY(-150px) scale(0.94); opacity: 0.3; } }
+@keyframes zoom-in { to { transform: scale(1.14); } }
+@keyframes ridge-drift { from { transform: translateX(0); } to { transform: translateX(-280px); } }
+@keyframes ring-on { from { box-shadow: 0 0 0 0 rgba(233, 196, 106, 0); scale: 0.7; } to { box-shadow: 0 0 0 6px rgba(233, 196, 106, 0.18); scale: 1; } }
